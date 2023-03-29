@@ -13,4 +13,5 @@ pluginManagement {
 rootProject.name = "study"
 include("libs:jackson")
 include("libs:opencsv")
-include("sandbox")
+include("apps:lottery-api")
+include("apps:sandbox")

@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Lottery {
-    public static final String TEMP_FILE_DIR = System.getProperty("user.home") + "/Projects/personal/study/sandbox/temp-files/";
+    public static final String TEMP_FILE_DIR = System.getProperty("user.home") + "/Projects/personal/study/apps/sandbox/temp-files";
     private static final int START_SEARCHING_LOTTO_ROUND_NUMBER = 1061;
     private static final int CURRENT_LOTTO_ROUND_NUMBER = 1060; // todo : 변경필요
     private static final long CALL_SLEEP_MILLIS = 200;
