@@ -1,7 +1,7 @@
 import com.linecorp.support.project.multi.recipe.configureByLabels
 
 plugins {
-    java
+//    java apply false
     id("com.linecorp.build-recipe-plugin") version Versions.lineRecipePlugin
     id("org.springframework.boot") version Versions.springBoot apply false
     id("io.spring.dependency-management") version Versions.springDependencyManagementPlugin apply false
@@ -25,6 +25,7 @@ allprojects {
 }
 
 configureByLabels("java") {
+    apply(plugin = "java")
     apply(plugin = "org.gradle.java")
 
     configure<JavaPluginExtension> {
@@ -64,6 +65,8 @@ configureByLabels("spock") {
     apply(plugin = "groovy")
 
     dependencies {
+        val testImplementation by configurations
+
         testImplementation("org.apache.groovy:groovy:${Versions.groovy}")
         testImplementation("org.spockframework:spock-core:${Versions.spock}")
     }
