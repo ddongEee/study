@@ -8,4 +8,6 @@
  */
 
 rootProject.name = "study"
-include("lib-jackson")
+include("libs:jackson")
+include("libs:opencsv")
+include("sandbox")

@@ -19,10 +19,9 @@ repositories {
 }
 
 dependencies {
-    // Use the latest Groovy version for Spock testing
-    testImplementation("org.codehaus.groovy:groovy:3.0.9")
-    // Use the awesome Spock testing and specification framework even with Java
-    testImplementation("org.spockframework:spock-core:2.0-groovy-3.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${Versions.jackson}")
+    testImplementation("org.apache.groovy:groovy:${Versions.groovy}")
+    testImplementation("org.spockframework:spock-core:${Versions.spock}")
 }
 
 tasks.named<Test>("test") {
