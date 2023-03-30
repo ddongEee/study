@@ -5,11 +5,9 @@
   "main": "src/main/typescript/com/study/apps/hellots/index.ts",
   "scripts": {
     "echo": "echo hello1",
-    "echo2": "npm run echo && echo hello2",
-    "setenv": "export PROJECT_PACKAGE=main/typescript/com/study/apps/hellots",
-    "dev": "npm run setenv && ts-node -r tsconfig-paths/register src/$PROJECT_PACKAGE",
-    "build": "tsc && node dist",
-    "start": "npm run setenv && node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/$PROJECT_PACKAGE/index.js",
+    "dev": "ts-node -r tsconfig-paths/register src/main/typescript/com/study/apps/hellots",
+    "build": "tsc && node -r ts-node/register/transpile-only -r tsconfig-paths/register dist",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/main/typescript/com/study/apps/hellots/index.js",
     "watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

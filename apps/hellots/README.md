@@ -33,15 +33,17 @@ npm i --save-dev tsconfig-paths
 tsc --init
 
 # package.json 의 script 에 dev, build 추가 >> intellij 에서 "show npm" 으로 검색
-
 npm run dev
 npm run build
- 
 ``` 
 - 프로젝트 이용자
 ```bash
 npm i
 ```
+
+## 이해
+- 모듈 : ts 에 export import 키워드 사용
+  - 
 
 ## 기타공부
 - js library 를 typescript 환경에서 쓰기위해 "@types/*" 와 같은 추가 라이브러리 필요 
