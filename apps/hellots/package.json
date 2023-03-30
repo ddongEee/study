@@ -1,0 +1,25 @@
+{
+  "name": "hellots",
+  "version": "1.0.0",
+  "description": "typescript node 연습 ",
+  "main": "src/main/typescript/com/study/apps/hellots/index.ts",
+  "scripts": {
+    "echo": "echo hello1",
+    "echo2": "npm run echo && echo hello2",
+    "setenv": "export PROJECT_PACKAGE=main/typescript/com/study/apps/hellots",
+    "dev": "npm run setenv && ts-node -r tsconfig-paths/register src/$PROJECT_PACKAGE",
+    "build": "tsc && node dist",
+    "start": "npm run setenv && node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/$PROJECT_PACKAGE/index.js",
+    "watch": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.0.2"
+  }
+}
