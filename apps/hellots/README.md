@@ -53,6 +53,18 @@ npm i
 - 개발시 ts-node 사용하지만, 프로덕션 사용시에는 ES5 변환후 node 로 실행
 - tsconfig-paths 관련 : https://medium.com/@jsh901220/typescript-node-absolute-path-5782b584e368
 
+### 모듈관련
+- import {SomeExportSymbol, ...} from '파일경로'
+- import * as U from '파일경로'
+- import OneDefaultExportSymbol from '파일경로'
+  - 한개의 모듈에 하나만 사용가능
+  - import 에 {} 필요없음
+- 외부 모듈 사용시
+```bash
+npm i -S chnace ramda
+npm i -D @types/chance @types/ramda
+```
+
 - 아래 설정 적용해 보기
 ```json
 {
@@ -62,4 +74,5 @@ npm i
   }
 }
 ```
+- react 관련 app 에서 tsconfig 의 module 값은 commonjs 가 아닌지? 
 ## References
