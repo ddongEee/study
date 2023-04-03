@@ -1,11 +1,9 @@
 import com.linecorp.support.project.multi.recipe.configureByLabels
 
 plugins {
-//    java apply false
     id("com.linecorp.build-recipe-plugin") version Versions.lineRecipePlugin
     id("org.springframework.boot") version Versions.springBoot apply false
     id("io.spring.dependency-management") version Versions.springDependencyManagementPlugin apply false
-
     kotlin("kapt") version Versions.kotlin apply false
     kotlin("jvm") version Versions.kotlin apply false
     kotlin("plugin.jpa") version Versions.kotlin apply false

@@ -7,6 +7,9 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import java.lang.reflect.Field;
 import java.util.*;
 
+/**
+ * CSV <-> Object bind 시에 columnName 의 camelcase 반영
+ */
 @SuppressWarnings({"unchecked", "rawtypes", "SuspiciousMethodCalls"})
 public class AnnotationStrategy extends HeaderColumnNameTranslateMappingStrategy {
     public AnnotationStrategy(Class<?> clazz)
