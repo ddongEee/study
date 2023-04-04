@@ -1,9 +1,12 @@
+import com.linecorp.support.project.multi.recipe.configureByLabel
 import com.linecorp.support.project.multi.recipe.configureByLabels
 
 plugins {
     id("com.linecorp.build-recipe-plugin") version Versions.lineRecipePlugin
     id("org.springframework.boot") version Versions.springBoot apply false
     id("io.spring.dependency-management") version Versions.springDependencyManagementPlugin apply false
+    id("io.freefair.lombok") version Versions.lombokPlugin apply false
+
     kotlin("kapt") version Versions.kotlin apply false
     kotlin("jvm") version Versions.kotlin apply false
     kotlin("plugin.jpa") version Versions.kotlin apply false
@@ -30,6 +33,10 @@ configureByLabels("java") {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
+
+configureByLabels("lombok") {
+    apply(plugin = "io.freefair.lombok")
 }
 
 configureByLabels("springboot") {
