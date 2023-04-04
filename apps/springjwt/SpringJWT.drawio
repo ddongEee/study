@@ -1,0 +1,114 @@
+<mxfile host="Electron" modified="2023-04-04T03:49:57.339Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="UyxhE7RL1lhNG7av_UZk" version="21.1.2" type="device" pages="2">
+  <diagram id="m6V-agAqpotBgq8eWJq2" name="Page-1">
+    <mxGraphModel dx="1114" dy="999" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-1" value="&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;div&gt;CustomAuthenticationFilter&lt;/div&gt;&lt;div&gt;(UsernamePasswordAuthenticationFilter)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="240" width="845" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-2" value="&lt;div&gt;String filterProcessUrl&lt;/div&gt;&lt;div&gt;(/api/v1/user/login)&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="165" y="260" width="370" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-3" value="&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;AuthenticationManager&lt;br&gt;(ProviderManager)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="165" y="340" width="370" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-5" value="&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;CustomAuthenticationProvider&lt;br&gt;(AuthenticationProvider)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="190" y="350" width="320" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-6" value="BCryptPasswordEncoder&lt;br&gt;(PasswordEncoder)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="210" y="360" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-9" value="CustomAuthSuccessHandler&lt;br&gt;(SaveRequestAwareAuthentictionSuccessHandler)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="575" y="325" width="380" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-10" value="CustomAuthFailHandler&lt;br&gt;(AuthenticationFailureHandler)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="575" y="260" width="380" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-11" value="SecurityFilterChain" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="110" y="150" width="410" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-12" value="WebSecurityCustomizer" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="110" y="70" width="410" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-13" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="710" width="300" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-14" value="deveper" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="870" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-16" value="&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;operator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="790" y="910" width="300" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-17" value="mkt-operator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="950" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-18" value="seller-operator" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="650" y="950" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-20" value="팀장(역할)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="140" y="970" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-23" value="팀원" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="970" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-27" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="380" y="1320" width="360" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-24" value="xxx조회(권한)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="140" y="1060" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-25" value="xxx조회" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="1060" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-26" value="xxx생성" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="140" y="1140" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-21" value="xxx조회" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="552.5" y="1407.5" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-22" value="xxx생성" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="420" y="1407.5" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GLjxn_-tT46FUV0zMWL6-28" value="mkt-operator-leader" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="880" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hmkxol11KNPlX5BeENZu" name="JWT 구성">
+    <mxGraphModel dx="1234" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--3" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="360" width="400" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--7" value="Header&lt;br&gt;- typ : 토큰타입&amp;nbsp;&lt;br&gt;- alg : signature에서 사용할 알고리즘" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="380" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--9" value="Payload&lt;br&gt;- 인증을 위해 사용될 정보(claim)으로 구성&lt;br&gt;- Registered claim : 필수정보x, jwt 에서 예약된 key를 가지고 사용&lt;br&gt;- Public claim : 사용자 정의, 공개용, 충돌방지위해 URI 포맷이용&lt;br&gt;Private claim : client&amp;lt;&amp;gt;server 간에 데이터 전송관련(userId, userEmail)&lt;br&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="505" width="370" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--10" value="Signature&lt;br&gt;- 인코딩Header + 인코딩SecretKey + SecretKey + Header&#39;s alg" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="630" width="370" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--11" value="Hader 의 json 은 base64Url 로 인코딩됨" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="135" y="255" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--12" value="클레임이란&amp;nbsp;&lt;br&gt;- 페이로드 구성을 담을때 key, value로 이뤄진 형태" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="440" y="255" width="270" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--15" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="740" y="320" width="560" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--13" value="&lt;meta charset=&quot;utf-8&quot;&gt;&lt;table style=&quot;outline: none; word-break: break-all; margin: 20px 0px; color: rgba(255, 255, 255, 0.9); border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-family: &amp;quot;Noto Sans KR&amp;quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(30, 31, 33); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; border-collapse: collapse; width: 720px; height: 89px;&quot; data-ke-style=&quot;style2&quot; data-ke-align=&quot;alignLeft&quot; border=&quot;1&quot;&gt;&lt;tbody style=&quot;outline: none; word-break: break-all;&quot;&gt;&lt;tr style=&quot;outline: none; word-break: break-all; height: 17px;&quot;&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; border-bottom: 1px solid var(--h-color-blurriest); line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 209.625px; height: 17px;&quot;&gt;요소 키 값&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; border-bottom: 1px solid var(--h-color-blurriest); line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); height: 17px; width: 279.234px;&quot;&gt;키 값 설명&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; border-bottom: 1px solid var(--h-color-blurriest); line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 231.141px;&quot;&gt;예시&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&quot;outline: none; word-break: break-all; height: 18px;&quot;&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 209.625px; height: 18px;&quot;&gt;&quot;iss&quot; : Issuer Claim&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); height: 18px; width: 279.234px;&quot;&gt;토큰 발급자 정보&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 231.141px;&quot;&gt;{&quot;iss&quot; : &quot;sendApiToken&quot;}&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&quot;outline: none; word-break: break-all; height: 18px;&quot;&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 209.625px; height: 18px;&quot;&gt;&quot;sub&quot;: Subject Claim&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); height: 18px; width: 279.234px;&quot;&gt;토큰 제목 정보&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 231.141px;&quot;&gt;{&quot;sub&quot;: &quot;customToken&quot;}&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&quot;outline: none; word-break: break-all; height: 18px;&quot;&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 209.625px; height: 18px;&quot;&gt;&quot;aud&quot;: Audience&lt;span&gt;&amp;nbsp;&lt;/span&gt;Claim&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); height: 18px; width: 279.234px;&quot;&gt;토큰 대상자 정보&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 231.141px;&quot;&gt;{&quot;aud&quot;: &quot;reciveClientToken&quot;}&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&quot;outline: none; word-break: break-all; height: 18px;&quot;&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 209.625px; height: 18px;&quot;&gt;&quot;exp&quot;: Expiration Time Claim&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); height: 18px; width: 279.234px;&quot;&gt;토큰 만료시간 정보&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 231.141px;&quot;&gt;{&quot;exp&quot;: &quot;1671629718&quot;}&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&quot;outline: none; word-break: break-all;&quot;&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 209.625px;&quot;&gt;&quot;nbf&quot;: Not Before Claim&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 279.234px;&quot;&gt;토큰 활성 날짜&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 231.141px;&quot;&gt;{&quot;nbf&quot;: &quot;1671629999&quot;}&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&quot;outline: none; word-break: break-all;&quot;&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 209.625px;&quot;&gt;&quot;lat&quot;: Issued At Claim&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 279.234px;&quot;&gt;토큰 발급 시간&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 231.141px;&quot;&gt;{&quot;lat&quot;: &quot;1671629999&quot;}&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&quot;outline: none; word-break: break-all;&quot;&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 209.625px;&quot;&gt;&quot;jti&quot;: JWT ID Claim&amp;nbsp;&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 279.234px;&quot;&gt;토큰 식별자&lt;/td&gt;&lt;td style=&quot;outline: none; word-break: break-word; padding: 8px; line-height: 1.8em; border-top: none; border-right: none; border-left: none; border-image: initial; border-bottom: 1px solid var(--h-color-blurriest); font-size: 0.9rem; box-sizing: border-box; color: var(--h-color); width: 231.141px;&quot;&gt;{&quot;jti&quot;: &quot;jwtidis&quot;}&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="XMQSeYuWY9AXMBjHBzs--15">
+          <mxGeometry y="20" width="560" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="XMQSeYuWY9AXMBjHBzs--14" value="Registered claim" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=20;" vertex="1" parent="XMQSeYuWY9AXMBjHBzs--15">
+          <mxGeometry width="170" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

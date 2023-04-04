@@ -1,0 +1,16 @@
+POST http://localhost:8080/api/v1/test/generateToken
+Content-Type: application/json
+
+{
+  "userId": "admin",
+  "userPw": "1",
+  "userNm": "관리자",
+  "userSq": 1
+}
+
+###
+GET http://localhost:8080/hello
+
+### Authorization by token, part 2. Use token to authorize.
+GET http://localhost:8080/hello
+Authorization: Bearer {token}
