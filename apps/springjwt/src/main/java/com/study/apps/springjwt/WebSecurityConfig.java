@@ -1,6 +1,5 @@
 package com.study.apps.springjwt;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * Spring Security 환경 설정을 구성하기 위한 클래스입니다.
@@ -32,7 +32,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         // 정적 자원에 대해서 Security를 적용하지 않음으로 설정
-        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     /**
@@ -44,22 +44,26 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // [STEP1] 서버에 인증정보를 저장하지 않기에 csrf를 사용하지 않는다.
-        http.csrf().disable();
-        // [STEP2] form 기반의 로그인에 대해 비 활성화하며 커스텀으로 구성한 필터를 사용한다.
-        http.formLogin().disable();
-        // [STEP3] 토큰을 활용하는 경우 모든 요청에 대해 '인가'에 대해서 사용.
-        http.authorizeHttpRequests((authz) -> authz.anyRequest().permitAll());
-        // [STEP4] Spring Security Custom Filter Load - Form '인증'에 대해서 사용
-        http.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        // [STEP5] Session 기반의 인증기반을 사용하지 않고 추후 JWT를 이용하여서 인증 예정
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // [STEP6] Spring Security JWT Filter Load
-//        http.addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class);
+        log.debug("[+] WebSecurityConfig Start !!! ");
+
+        http
+                // [STEP1] 서버에 인증정보를 저장하지 않기에 csrf를 사용하지 않는다.
+                .csrf().disable()
+                // [STEP2] 토큰을 활용하는 경우 모든 요청에 대해 '인가'에 대해서 적용
+                .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
+                // [STEP3] Spring Security JWT Filter Load
+                .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)
+                // [STEP4] Session 기반의 인증기반을 사용하지 않고 추후 JWT를 이용하여서 인증 예정
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                // [STEP5] form 기반의 로그인에 대해 비 활성화하며 커스텀으로 구성한 필터를 사용한다.
+                .formLogin().disable()
+                // [STEP6] Spring Security Custom Filter Load - Form '인증'에 대해서 사용
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
         // [STEP7] 최종 구성한 값을 사용함.
         return http.build();
     }
-
 
     /**
      * 3. authenticate 의 인증 메서드를 제공하는 매니져로'Provider'의 인터페이스를 의미합니다.
@@ -91,7 +95,6 @@ public class WebSecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     /**
      * 6. 커스텀을 수행한 '인증' 필터로 접근 URL, 데이터 전달방식(form) 등 인증 과정 및 인증 후 처리에 대한 설정을 구성하는 메서드입니다.
@@ -128,16 +131,14 @@ public class WebSecurityConfig {
         return new CustomAuthFailureHandler();
     }
 
-
     /**
      * 9. JWT 토큰을 통하여서 사용자를 인증합니다.
      *
      * @return JwtAuthorizationFilter
      */
-//    @Bean
-//    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-//        return new JwtAuthorizationFilter();
-//    }
-
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter() {
+        return new JwtAuthorizationFilter();
+    }
 
 }

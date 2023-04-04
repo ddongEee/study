@@ -1,4 +1,3 @@
-import com.linecorp.support.project.multi.recipe.configureByLabel
 import com.linecorp.support.project.multi.recipe.configureByLabels
 
 plugins {
