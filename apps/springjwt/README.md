@@ -8,6 +8,10 @@
 ```bash
 ``` 
 
+## TODO
+- 기존 소스는 jwt 관련 빈틈이 보임.. refectoring 필요
+  - [SpringBoot + JWT + Security + JPA 인증 구현, JWT란?](https://aljjabaegi.tistory.com/659) 참고 
+
 ## References
 - Spring security
   - [[Java] Spring Boot Security](https://adjh54.tistory.com/91)
