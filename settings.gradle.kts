@@ -14,6 +14,7 @@ rootProject.name = "study"
 include("libs:jackson")
 include("libs:opencsv")
 
+include("apps:poc:distributed-lock-by-redis")
 include("apps:poc:hellots")
 include("apps:poc:jambda")
 include("apps:poc:lottery")

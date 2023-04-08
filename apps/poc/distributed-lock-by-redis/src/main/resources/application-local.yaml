@@ -1,0 +1,11 @@
+spring:
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 3000 # 논의 필요
+    enablePeriodicRefresh: 10000
+    adaptiveRefreshTriggersTimeout: 30000
+    shutdownTimeout: 30000
+    connectTimeout: 3000

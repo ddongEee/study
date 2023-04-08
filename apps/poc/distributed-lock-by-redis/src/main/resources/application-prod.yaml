@@ -1,0 +1,17 @@
+spring:
+  cache:
+    type: redis
+  redis:
+    host: active.cache.cluster.internal
+    port: 6379
+    timeout: 3000 # 논의 필요 :: command timeout
+    enablePeriodicRefresh: 10000 # 짧게 할수록 복구가 빠름.. 기본 10초 였고, route 53 ttl 과 연동
+    adaptiveRefreshTriggersTimeout: 5000
+    shutdownTimeout: 100
+    connectTimeout: 10000
+
+
+logging:
+  file:
+    path: /home/ec2-user/app
+    name: ${logging.file.path}/spring.log
