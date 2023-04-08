@@ -13,8 +13,11 @@ pluginManagement {
 rootProject.name = "study"
 include("libs:jackson")
 include("libs:opencsv")
-include("apps:lottery-api")
-include("apps:sandbox")
-include("apps:hellots")
-include("apps:sdk4aws")
-include("apps:springjwt")
+
+
+
+include("apps:poc:hellots")
+include("apps:poc:lottery")
+include("apps:poc:sdk4aws")
+include("apps:poc:springjwt")
+include("apps:poc:stock")
