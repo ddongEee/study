@@ -1,0 +1,12 @@
+server:
+  port: 8088
+spring:
+  profiles:
+    active: awsparamstore
+  cloud:
+    config:
+      server:
+        awsparamstore:
+          region: ap-northeast-2
+          decrypt-values: false
+          order: 1

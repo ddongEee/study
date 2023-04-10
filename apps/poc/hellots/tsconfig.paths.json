@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",        /* Base directory to resolve non-absolute module names. [./ -> .]*/
+    "paths": {
+      "@src/*" : ["src/main/typescript/com/study/apps/hellots/*"],
+      "*": ["node_modules/*"]
+    }      /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. [ -> ",*": ["node_modules/*"]]*/
+  }
+}
