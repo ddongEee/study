@@ -15,6 +15,7 @@ rootProject.name = "study"
 include("apps:poc:distributed-lock-by-redis")
 include("apps:poc:hellots")
 include("apps:poc:jambda")
+include("apps:poc:logging")
 include("apps:poc:lottery")
 include("apps:poc:sdk4aws")
 include("apps:poc:spring-cloud-config:client")
