@@ -31,11 +31,11 @@
           - (주의) 2주이상 업데이트 없으면 console에서 안보이고, CLI로만 확인가능
         - Dimension : 태그/카테고리. metric 구분시 사용, 키벨류구성, 최대30개, 조합가능
         - 기타 : Unit 단위
-      - Alarm(경보)
-        - threshold 기준 알림생성
-        - 3가지 상태 (OK, ALARM, INSUFFICIENT_DATA)
-        - 대응가능 : sns+lambda, 이메일,, 500에러 일정수치 이상일때
-        - Resolution 에 따라 평가 주기 변동. HR 아니면 60초 이상기준
+  - Alarm(경보)
+    - threshold 기준 알림생성
+    - 3가지 상태 (OK, ALARM, INSUFFICIENT_DATA)
+    - 대응가능 : sns+lambda, 이메일,, 500에러 일정수치 이상일때
+    - Resolution 에 따라 평가 주기 변동. HR 아니면 60초 이상기준
 - 사용
   - AWS system manager command 를 통해 cloudWatchAgent 설치 및 실행
     - agent 관련 config는 parameterStore 활용
