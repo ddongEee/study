@@ -8,6 +8,15 @@
 > how : 1. PoC 하려는 CW 기능 선정. (putMetric, )    
 > what : ...
 
+## 기능
+### Logs
+- CloudWatch 의 LogGroup 생성시
+  - name : logGroupName. conversion?
+  - retention : 1Day ~ 10Year, Never(default?)
+
+## 정리필요
+- 해당 기능을 실행하기 위한 최소한의 Role은 무엇인가?
+
 
 ##### 참고
 - [AWS SDK for Java 1.x CloudWatch code sample](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/examples-cloudwatch.html)
