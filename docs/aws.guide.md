@@ -46,7 +46,16 @@
   - 모든경보 -> 지표선택 -> 합계,1분,보다크거나같음 -> SNS 설정
     - email confirm 필요
         
-
+## AWS CLI
+```bash
+# iam 에서 role 생성 및 access key 생성후 
+# aws configure --profile {{accountName-role}}
+aws configure --profile lab-admin
+# AWS Access Key ID [None]: ****
+# AWS Secret Access Key [None]: ****
+# Default region name [None]: ap-northeast-2
+# Default output format [None]: json
+```
 ## Reference
 - [AWS Documentation](https://docs.aws.amazon.com/)
 - ["Github" aws-lambda-developer-guide ](https://github.com/awsdocs/aws-lambda-developer-guide)
