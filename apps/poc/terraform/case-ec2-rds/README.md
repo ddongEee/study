@@ -2,31 +2,39 @@
 ## 정리
 ### 선행조건
 ```bash
-export AWS_PROFILE=lab-admin
-export AWS_ACCOUNT_ID=xxx
+export AWS_PROFILE=poc-admin
+export ACCOUNT_ID=$(aws sts get-caller-identity --output json | jq ".Account" | tr -d '"')
 export AWS_IAM_USER_NAME=devops
 # aws 에 해당 작업만을 위한 role 생성. 초안..
 aws iam create-user --user-name ${AWS_IAM_USER_NAME}
 aws iam list-users
+
+# access key 생성
+aws iam create-access-key --user-name ${AWS_IAM_USER_NAME}
+
 # policy 설정
 # TODO : 좀더 구조적으로 변경하기(ex.group 사용), policyName 도 변경
 # ec2:keyPair 의 경우, 수정이나, 생성이후 삭제 없으면, "ec2:ImportKeyPair", "ec2:DescribeKeyPairs" 만 있으면 되나, 
 # terraform destroy 을 위해, "ec2:DeleteKeyPair" 까지 추가..
 aws iam create-policy --policy-name ec2-keypair-policy --policy-document file://aws-stuff/ec2-KeyPair.policy.json
 aws iam attach-user-policy --user-name ${AWS_IAM_USER_NAME} --policy-arn arn:aws:iam::${AWS_ACCOUNT_ID}:policy/ec2-keypair-policy
+
 # securityGroup policy 생성
 aws iam create-policy --policy-name ec2-securitygroup-policy --policy-document file://aws-stuff/ec2-SecurityGroup.policy.json
 aws iam attach-user-policy --user-name ${AWS_IAM_USER_NAME} --policy-arn arn:aws:iam::${AWS_ACCOUNT_ID}:policy/ec2-securitygroup-policy
+
 # instance policy 생성
 # reading EC2 Instance launch template 관련 error 는 tag 관련 policy 또한 필요햇엇음. https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-launch-template.html#ts-launch-template-unauthorized-error
 # reading EC2 Instance (***): reading block devices: UnauthorizedOperation 관련, ec2:DescribeVolumes policy 추가
 aws iam create-policy --policy-name ec2-instance-policy --policy-document file://aws-stuff/ec2-Instance.policy.json
 aws iam attach-user-policy --user-name ${AWS_IAM_USER_NAME} --policy-arn arn:aws:iam::${AWS_ACCOUNT_ID}:policy/ec2-instance-policy
+
 # RDS - db instance policy 생성
 # [Issue.1] Verify that you have permission to create service linked role. Otherwise wait and try again later
 # [Solution.1] iam:CreateServiceLinkedRole >> IAM 관련 policy
 aws iam create-policy --policy-name rds-dbinstance-policy --policy-document file://aws-stuff/rds-dbInstance.policy.json
 aws iam attach-user-policy --user-name ${AWS_IAM_USER_NAME} --policy-arn arn:aws:iam::${AWS_ACCOUNT_ID}:policy/rds-dbinstance-policy
+
 # IAM policy 생성
 aws iam create-policy --policy-name iam-policy --policy-document file://aws-stuff/iam.policy.json
 aws iam attach-user-policy --user-name ${AWS_IAM_USER_NAME} --policy-arn arn:aws:iam::${AWS_ACCOUNT_ID}:policy/iam-policy
@@ -34,8 +42,7 @@ aws iam attach-user-policy --user-name ${AWS_IAM_USER_NAME} --policy-arn arn:aws
 #aws iam attach-role-policy --role-name {{role_name}} --policy-arn arn:aws:iam::xxx:policy/ec2-keypair-policy
 aws iam list-attached-user-policies --user-name ${AWS_IAM_USER_NAME} | jq .
 
-# access key 생성
-aws iam create-access-key --user-name ${AWS_IAM_USER_NAME}
+
 
 # Local 에 profile 생성
 aws configure --profile lab-devops
