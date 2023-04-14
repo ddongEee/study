@@ -1,4 +1,5 @@
 object Versions {
+    const val awsJavaSdk = "2.20.42"
     const val awsJavaSdkKms = "1.12.225"
     const val awsJavaSdkSsm = "1.12.199"
     const val awsJavaSdkSecretsManager = "1.12.199"

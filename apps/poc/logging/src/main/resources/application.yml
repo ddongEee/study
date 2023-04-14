@@ -1,0 +1,6 @@
+logging:
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(%5p) %clr([%X{userId} %X{event} %X{transactionId}]){magenta} [%thread] %clr(%logger{36}[%method:%line]){cyan} - %msg%n"
+  level:
+    root: info
+    com.study.com.study.apps.poc.logging: debug
