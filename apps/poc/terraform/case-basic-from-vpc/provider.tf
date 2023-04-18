@@ -8,6 +8,7 @@ terraform {
   required_version = "1.4.4"
 }
 
+# default provider
 provider "aws" {
   region = var.aws_region
   shared_config_files = [ "~/.aws/config" ]
@@ -19,4 +20,10 @@ provider "aws" {
       CreatedBy = "Terraform"
     }
   }
+}
+
+# CloudFront 에서 HTTPS 설정을위해 사용하는 ACM 인증서는, us-east-1에 생성해야되서..
+provider "aws" {
+  alias  = "virginia"
+  region = "us-east-1"
 }

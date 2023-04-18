@@ -10,7 +10,7 @@ variable "aws_region" {
 variable "aws_domain_name" {
   type        = string
   description = "The domain name to use"
-  default     = "demo.hands-on-cloud.com"
+  default     = "test.kmhak.com"
 }
 
 variable "aws_vpc_name" {

@@ -1,3 +1,99 @@
+#resource "aws_route53_zone" "hosted_zone" {
+#  name = var.aws_domain_name
+#}
+#
+## generate ACM cert for domain on us-east-1 :
+#resource "aws_acm_certificate" "cert" {
+#  provider                  = aws.virginia
+#  domain_name               = var.aws_domain_name
+#  subject_alternative_names = ["*.${var.aws_domain_name}"]
+#  validation_method         = "DNS"
+#  tags = {
+##    Name = "[${var.aws_vpc_name}] ACM"
+#  }
+#}
+#
+## validate cert:
+#resource "aws_route53_record" "cert_validation" {
+#  for_each = {
+#    for d in aws_acm_certificate.cert.domain_validation_options : d.domain_name => {
+#      name   = d.resource_record_name
+#      record = d.resource_record_value
+#      type   = d.resource_record_type
+#    }
+#  }
+#  allow_overwrite = true
+#  name            = each.value.name
+#  records         = [each.value.record]
+#  ttl             = 60
+#  type            = each.value.type
+#  zone_id         = aws_route53_zone.hosted_zone.zone_id
+#}
+#
+#resource "aws_acm_certificate_validation" "cert_validation" {
+#  provider = aws.virginia
+#  certificate_arn         = aws_acm_certificate.cert.arn // 검증중인 인증서의 ARN.
+#  validation_record_fqdns = [ for r in aws_route53_record.cert_validation : r.fqdn ] // 유효성 검사를 구현하는 FQDN 목록
+#}
+#
+## creating A record for domain:
+#resource "aws_route53_record" "website_url" {
+#  name    = var.aws_domain_name
+#  zone_id = aws_route53_zone.hosted_zone.zone_id
+#  type    = "A"
+#  alias {
+#    name                   = aws_cloudfront_distribution.cf_dist.domain_name
+#    zone_id                = aws_cloudfront_distribution.cf_dist.hosted_zone_id
+#    evaluate_target_health = true
+#  }
+#}
+
+# creating Cloudfront distribution:
+resource "aws_cloudfront_distribution" "cf_dist" {
+  enabled = true
+#  aliases = [var.aws_domain_name] // todo : domain 발급받으면 사용?
+  origin {
+    domain_name = aws_alb.frontend.dns_name
+    origin_id   = aws_alb.frontend.dns_name
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+  default_cache_behavior {
+    allowed_methods        = ["GET","HEAD","OPTIONS","PUT","POST","PATCH","DELETE"]
+    cached_methods         = ["GET","HEAD","OPTIONS"]
+    target_origin_id       = aws_alb.frontend.dns_name
+    viewer_protocol_policy = "allow-all" // cert 적용후, "redirect-to-https"
+    forwarded_values {
+      headers = []
+      query_string = true
+      cookies {
+        forward = "all"
+      }
+    }
+  }
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+  viewer_certificate {
+    // if you want viewers to use HTTPS to request your objects
+    // and you're using the CloudFront domain name for your distribution
+    cloudfront_default_certificate = true
+#    acm_certificate_arn      = aws_acm_certificate.cert.arn
+#    ssl_support_method       = "sni-only"
+#    minimum_protocol_version = "TLSv1.2_2018"
+  }
+
+  tags = {
+    Name = "${var.aws_vpc_name}-CF-DIST"
+  }
+}
+
 resource "aws_vpc" "main" {
   cidr_block           = var.aws_vpc_cidr
   enable_dns_hostnames = true
@@ -69,6 +165,7 @@ resource "aws_eip" "nat_gw" {
   }
 }
 
+// 고가용성을 위해서 multi nat gw를 public-subnet 마다 생성.. 성능이슈는 거의 없음
 resource "aws_nat_gateway" "nat_gateways" {
   count         = length(aws_subnet.private_subnets)
   allocation_id = element(aws_eip.nat_gw.*.id, count.index)
@@ -294,6 +391,10 @@ output "private_dns" {
 
 output "alb_id" {
   value = aws_alb.frontend.dns_name
+}
+
+output "cloudfront_domain_name" {
+  value = aws_cloudfront_distribution.cf_dist.domain_name
 }
 
 # TODO : ASG 반영하기
