@@ -1,5 +1,5 @@
 resource "aws_vpc" "main" {
-  cidr_block = var.aws_vpc_cidr
+  cidr_block           = var.aws_vpc_cidr
   enable_dns_hostnames = true
 
   tags = {
@@ -20,9 +20,9 @@ resource "aws_subnet" "public_subnets" {
 }
 
 resource "aws_subnet" "private_subnets" {
-  count = length(var.aws_private_subnet_cidrs)
-  vpc_id = aws_vpc.main.id
-  cidr_block = element(var.aws_private_subnet_cidrs, count.index)
+  count             = length(var.aws_private_subnet_cidrs)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = element(var.aws_private_subnet_cidrs, count.index)
   availability_zone = element(var.aws_availability_zones, count.index)
 
   tags = {
@@ -38,6 +38,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
+# TODO : 질문 : public rt 의 경우 zone 별로 만들 필요 있는가?
 resource "aws_route_table" "public_subnet" {
   vpc_id = aws_vpc.main.id
 
@@ -52,8 +53,8 @@ resource "aws_route_table" "public_subnet" {
 }
 
 resource "aws_route_table_association" "public_subnet_assos" {
-  count = length(var.aws_public_subnet_cidrs)
-  subnet_id = element(aws_subnet.public_subnets.*.id, count.index)
+  count          = length(var.aws_public_subnet_cidrs)
+  subnet_id      = element(aws_subnet.public_subnets.*.id, count.index)
   route_table_id = aws_route_table.public_subnet.id
 }
 
@@ -64,14 +65,14 @@ resource "aws_eip" "nat_gw" {
     create_before_destroy = true
   }
   tags = {
-    Name = "[${var.aws_vpc_name}] EIP-${count.index + 1}"
+    Name = "[${var.aws_vpc_name}] EIP4NatGW-${count.index + 1}"
   }
 }
 
 resource "aws_nat_gateway" "nat_gateways" {
-  count = length(aws_subnet.private_subnets)
+  count         = length(aws_subnet.private_subnets)
   allocation_id = element(aws_eip.nat_gw.*.id, count.index)
-  subnet_id = element(aws_subnet.public_subnets.*.id, count.index) #  public subnet 에 생성
+  subnet_id     = element(aws_subnet.public_subnets.*.id, count.index) #  public subnet 에 생성
 
   tags = {
     Name = "[${var.aws_vpc_name}] NAT-GW-${count.index + 1}"
@@ -79,7 +80,7 @@ resource "aws_nat_gateway" "nat_gateways" {
 }
 
 resource "aws_route_table" "private_subnets" {
-  count = length(aws_nat_gateway.nat_gateways)
+  count  = length(aws_nat_gateway.nat_gateways)
   vpc_id = aws_vpc.main.id
 
   route {
@@ -93,8 +94,8 @@ resource "aws_route_table" "private_subnets" {
 }
 
 resource "aws_route_table_association" "private_subnet_assos" {
-  count = length(aws_subnet.private_subnets)
-  subnet_id = element(aws_subnet.private_subnets.*.id, count.index)
+  count          = length(aws_subnet.private_subnets)
+  subnet_id      = element(aws_subnet.private_subnets.*.id, count.index)
   route_table_id = element(aws_route_table.private_subnets.*.id, count.index)
 }
 
@@ -107,7 +108,7 @@ resource "aws_key_pair" "web_admin" {
 resource "aws_security_group" "webserver-sg" {
   name = "allow 22, 80"
   description = "Allow SSH port from all"
-  vpc_id = aws_vpc.main.id
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port   = 22
@@ -159,11 +160,11 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_eip" "demo-eips"{
-  count = length(aws_instance.web)
+  count    = length(aws_instance.web)
   instance = element(aws_instance.web.*.id, count.index)
   vpc = true
   tags = {
-    Name = "EIP-${count.index}"
+    Name = "[${var.aws_vpc_name}] EIP4Ec2-${count.index}"
   }
 }
 
@@ -223,10 +224,10 @@ resource "aws_security_group" "sg" {
 }
 
 resource "aws_alb" "frontend" {
-  name = "alb-example"
-  internal = false
+  name            = "alb-example"
+  internal        = false
   security_groups = [aws_security_group.sg.id,]
-  subnets = aws_subnet.public_subnets.*.id
+  subnets         = aws_subnet.public_subnets.*.id
 
   tags = {
     Name = "ALB"
@@ -238,10 +239,10 @@ resource "aws_alb" "frontend" {
 }
 
 resource "aws_alb_target_group" "frontend" {
-  name = "frontend-target-group"
-  port = 80
+  name     = "frontend-target-group"
+  port     = 80
   protocol = "HTTP"
-  vpc_id = aws_vpc.main.id
+  vpc_id   = aws_vpc.main.id
   health_check {
     interval = 30
     path = "/"
@@ -256,8 +257,8 @@ resource "aws_alb_target_group" "frontend" {
 
 resource "aws_alb_listener" "test" {
   load_balancer_arn = aws_alb.frontend.arn
-  port = 80
-  protocol = "HTTP"
+  port              = 80
+  protocol          = "HTTP"
   default_action {
     type = "forward"
     target_group_arn = aws_alb_target_group.frontend.arn
@@ -296,3 +297,4 @@ output "alb_id" {
 }
 
 # TODO : ASG 반영하기
+# TODO : VPC Flow log 적용
