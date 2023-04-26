@@ -45,8 +45,22 @@
     - 로그스트림 name 혹은 여러 dimension 조합으로 검색
   - 모든경보 -> 지표선택 -> 합계,1분,보다크거나같음 -> SNS 설정
     - email confirm 필요
+### AWS route53
+
+### Application Load Balancer
+- 기능
+  - 트래픽 분산, health check, https 지원 
+- 구성
+  - listener : 구성 protocol 과 port 로  
+#### 다른곳에서 구입한 도메인을 사용하기 위해선
+- 사용하려고 하는 aws 계정의 route53에 "Hosting" 영역 생성하고
+  - 생성된 ns을, 이전에 구입한 곳의 도메인에 연결된 ns 에 overwrite 해준다. 
+```bash
+생성후 확인
+nslookup -type=ns woocra.com
+```
         
-## AWS CLI
+### AWS CLI
 ```bash
 # iam 에서 role 생성 및 access key 생성후 
 # aws configure --profile {{accountName-role}}
@@ -56,6 +70,9 @@ aws configure --profile lab-admin
 # Default region name [None]: ap-northeast-2
 # Default output format [None]: json
 ```
+
+### AWS IAM 
+- 어떻게 role, policy, attach 되는가?
 ## Reference
 - [AWS Documentation](https://docs.aws.amazon.com/)
 - ["Github" aws-lambda-developer-guide ](https://github.com/awsdocs/aws-lambda-developer-guide)

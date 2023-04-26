@@ -32,6 +32,7 @@ sudo docker run -d -p 8008:8080 --name day2app ${AWS_ACCOUNT_ID}.dkr.ecr.ap-nort
 ```
 ### 이전 설정
 ```bash
+export ACCOUNT_ID=$(aws sts get-caller-identity --output json | jq ".Account" | tr -d '"')
 sudo yum install -y docker-20.10.23-1.amzn2.0.1
 sudo dockerd &> dockerd-logfile &
 aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com

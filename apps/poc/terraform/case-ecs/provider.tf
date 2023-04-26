@@ -4,9 +4,6 @@ terraform {
       source = "hashicorp/aws"
       version = "~> 4.0"
     }
-    docker = {
-      source = "kreuzwerker/docker"
-    }
   }
   required_version = "1.4.4"
 }
@@ -20,8 +17,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      CreatedBy   = "Terraform"
-      Environment = var.environment
+      CreatedBy = "Terraform"
     }
   }
 }
@@ -31,5 +27,3 @@ provider "aws" {
   alias  = "virginia"
   region = "us-east-1"
 }
-
-provider "docker" {}
