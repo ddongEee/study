@@ -113,3 +113,30 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle" {
     }
   }
 }
+
+resource "aws_s3_bucket" "react" {
+  bucket = "day3-app"
+  force_destroy = true
+}
+
+resource "aws_s3_bucket_ownership_controls" "react" {
+  bucket = aws_s3_bucket.react.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "react" {
+  bucket = aws_s3_bucket.react.id
+  depends_on = [aws_s3_bucket_ownership_controls.react]
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_public_access_block" "pab" {
+  bucket                  = aws_s3_bucket.react.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+

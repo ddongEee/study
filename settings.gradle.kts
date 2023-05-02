@@ -22,7 +22,7 @@ rootProject.name = "study"
 //include("apps:poc:spring-cloud-config:server")
 //include("apps:poc:springjwt")
 //include("apps:poc:stock")
-include("products:day2")
+include("products:order:api")
 //include("learn:coding-test")
 //include("libs:jackson")
 //include("libs:opencsv")

@@ -1,6 +1,12 @@
 # AWS
 
 ## 서비스 
+### Subnet
+- public subnet : 인터넷 연결이 가능함으로, 공인 ip 를 갖을수 있다.
+- private subnet : 다른 vpc 영역에서 접근이 불가능하다. 동일 vpc 대역이라면 접근가능
+  - nat gw 를 타고 EIP로 변환후 igw통해 인터넷으로 나감
+- 정리
+  - ELB 만 public 에 놓고, 실제 was 와 db는 private subnet 에 위치시키는것이 좋은선택
 ### Amazon CloudWatch
 - 모니터링 및 관찰 시스템, AWS 서비스 혹은 다른 애플리케이션 모니터링
 - Public 서비스 (인터넷 혹은 Interface Endpoint 사용)

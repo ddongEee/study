@@ -1,4 +1,4 @@
-package com.study.day2;
+package com.study.orderapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-public class Day2Application {
+public class OrderApiApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Day2Application.class);
+        SpringApplication.run(OrderApiApplication.class, args);
     }
 
     @RestController
@@ -18,4 +18,6 @@ public class Day2Application {
             return "Hello Crayon :)";
         }
     }
+
+
 }

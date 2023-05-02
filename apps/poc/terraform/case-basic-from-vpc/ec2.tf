@@ -1,4 +1,5 @@
-## START Instance
+# TODO :
+# - Bastion Host 혹은 SSH 터널링을 위한 instance 생성
 resource "aws_key_pair" "web_admin" {
   key_name   = "web_admin"
   public_key = file("~/.ssh/web_admin.pub")
