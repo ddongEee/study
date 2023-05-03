@@ -23,6 +23,10 @@
       {
         "name": "PORT",
         "value": "${host_port}"
+      },
+      {
+        "name": "SPRING_PROFILES_ACTIVE",
+        "value": "dev"
       }
     ],
     "ulimits": [

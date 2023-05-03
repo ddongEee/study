@@ -1,0 +1,222 @@
+version: '3.8'
+networks:
+  default:
+    name: poc-network
+services:
+  #  prometheus:
+  #    image: prom/prometheus:latest
+  #    container_name: day1-o11y-prometheus
+  #    ports:
+  #      - "${PROMETHEUS_PORT:-58081}:9090"
+  #    volumes:
+  #      - "${PROMETHEUS_VOLUME:-./build-src/system-monitoring/prometheus}:/etc/prometheus:ro"
+  #    healthcheck:
+  #      test: wget --no-verbose --tries=1 --spider http://localhost:9090/-/healthy || exit 1
+  #      interval: 5s
+  #      timeout: 3s
+  #      retries: 5
+  #
+  #  grafana:
+  #    depends_on:
+  #      prometheus:
+  #        condition: service_healthy
+  #    image: grafana/grafana:latest
+  #    container_name: day1-o11y-grafana
+  #    ports:
+  #      - "${GRAFANA_PORT:-3081}:3000"
+  #    environment:
+  #      - GF_SECURITY_ADMIN_USER=admin
+  #      - GF_SECURITY_ADMIN_PASSWORD=admin
+  #      - GF_USERS_ALLOW_SIGN_UP=false
+  #    volumes:
+  #      - "${GRAFANA_VOLUME:-./build-src/system-monitoring/grafana/datasources}:/etc/grafana/provisioning/datasources"
+  #      - "${GRAFANA_VOLUME:-./build-src/system-monitoring/grafana/dashboards}:/etc/grafana/provisioning/dashboards"
+  #    healthcheck:
+  #      test: wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
+  #      interval: 5s
+  #      timeout: 3s
+  #      retries: 5
+  #
+  db:
+    image: postgres:15.2
+    container_name: postgres
+    #    build:
+    #      context: build-src/system-persistence/db
+    #      dockerfile: Dockerfile-PostgreSQL
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    environment:
+      TZ: Asia/Seoul
+      POSTGRES_DB: ${DB_USERNAME:-orderdb}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_INITDB_ARGS: --encoding=UTF-8
+    volumes:
+      - ${DB_VOLUME:-./build-src/system-persistence/db/mount}:/var/lib/postgresql/data
+    healthcheck:
+      #      test: ["CMD-SHELL", "pg_isready"]
+      test: "pg_isready -U postgres"
+      interval: 5s
+      timeout: 3s
+      retries: 10
+#
+#  mig-db-schema:
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    image: day1-mig:schema
+#    container_name: day1-db-mig-schema
+#    build:
+#      context: build-src/system-persistence/db
+#      dockerfile: Dockerfile-FlyWay
+#      args:
+#        MIG_SCOPE: sql/ddl-schema
+#    command: >-
+#      -url=jdbc:postgresql://db:${DB_PORT:-5432}/${DB_DATABASE_NAME:-day1}
+#      -defaultSchema=public
+#      -schemas=${DB_DEFAULT_SCHEMA:-builder}
+#      -user=${DB_USERNAME:-postgres}
+#      -password=${DB_PASSWORD:-postgres1234}
+#      -connectRetries=60
+#      clean migrate info
+#
+#  mig-db-dataset:
+#    depends_on:
+#      mig-db-schema:
+#        condition: service_completed_successfully
+#    image: day1-mig:dataset
+#    container_name: day1-db-mig-dataset
+#    build:
+#      context: build-src/system-persistence/db
+#      dockerfile: Dockerfile-FlyWay
+#      args:
+#        MIG_SCOPE: sql/dml-dataset
+#    command: >
+#      -url=jdbc:postgresql://db:${DB_PORT:-5432}/${DB_DATABASE_NAME:-day1}
+#      -defaultSchema=public
+#      -schemas=${DB_DEFAULT_SCHEMA:-builder}
+#      -user=${DB_USERNAME:-postgres}
+#      -password=${DB_PASSWORD:-postgres1234}
+#      -connectRetries=60
+#      -outOfOrder=true
+#      -ignorePendingMigrations=true
+#      -ignoreIgnoredMigrations=true
+#      repair info migrate info
+#
+#  day1:
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#      mig-db-dataset:
+#        condition: service_completed_successfully
+#    image: day1:local
+#    container_name: day1
+#    ports:
+#      - "${DAY1_APP_PORT:-28081}:${DAY1_APP_PORT:-28081}"
+#      - "${DAY1_APP_ACTUATOR_PORT:-38081}:${DAY1_APP_ACTUATOR_PORT:-38081}"
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.app.build
+#      args:
+#        APP_NAME: day1
+#    environment:
+#      SERVER_PORT: ${DAY1_APP_PORT:-28081}
+#      ACTUATOR_PORT: ${DAY1_APP_ACTUATOR_PORT:-38081}
+#      DB_HOST: db
+#      JAVA_OPTS: |
+#        -Dserver.port=${DAY1_APP_PORT:-28081}
+#        -Dmanagement.server.port=${DAY1_APP_ACTUATOR_PORT:-38081}
+#    healthcheck:
+#      test: >-
+#        wget --no-verbose --tries=1 --spider
+#        http://localhost:${DAY1_APP_ACTUATOR_PORT:-38081}/actuator/health || exit 1
+#      start_period: 5s
+#      interval: 3s
+#      timeout: 2s
+#      retries: 5
+#
+#  e2e-rest:
+#    image: day1-e2e:local
+#    container_name: day1-e2e-bdd-rest
+#    build:
+#      context: build-src/system-behavior
+#      dockerfile: Dockerfile-Cucumber
+#    environment:
+#      SYSTEM_NAME: Day1
+#      SYSTEM_PROTOCOL: http
+#      SYSTEM_HOST: day1
+#      SYSTEM_PORT: ${DAY1_APP_PORT:-28081}
+#      SYSTEM_VERSION: ${APP_VERS:-SNAPSHOT}
+#      SYSTEM_RUNTIME: "'docker' in docker-compose"
+#    command: ["sh", "-c", "cd /system-behavior && yarn run ci"]
+#    volumes:
+#      - ./build-src/system-behavior/outputs/mounts/basic:/system-behavior/outputs/basic
+#
+#  e2e-report:
+#    extends: e2e-rest
+#    container_name: day1-e2e-bdd-report
+#    command: ["sh", "-c", "cd /system-behavior && yarn run report"]
+#    volumes:
+#      - ./build-src/system-behavior/outputs/mounts/basic:/system-behavior/outputs/basic:ro
+#      - ./build-src/system-behavior/outputs/mounts/report:/system-behavior/outputs/report
+#
+#  stub:
+#    image: day1-stub:local
+#    container_name: day1-stub
+#    ports:
+#      - "${MB_DASHBOARD_PORT:-48081}:${MB_DASHBOARD_PORT:-48081}"
+#      - "${MB_DAY1_IMPO_PORT:-18081}:${MB_DAY1_IMPO_PORT:-18081}"
+#    build:
+#      context: build-src/system-stub
+#      dockerfile: Dockerfile-Mountebank
+#    environment:
+#      MB_DASHBOARD_PRTL: http
+#      MB_DASHBOARD_PORT: ${MB_DASHBOARD_PORT:-48081}
+#      MB_DAY1_IMPO_NAME: Day1.stub
+#      MB_DAY1_IMPO_PORT: ${MB_DAY1_IMPO_PORT:-18081}
+#
+#  locust-master:
+#    image: locustio/locust:${LOCUST_VERSION:-2.14.2}
+#    container_name: day1-perf-locust-master
+#    ports:
+#      - "${LOCUST_MASTER_PORT:-48081}:8089"
+#    environment:
+#      TROUGHPUT: ${LOCUST_SCENARIO_TROUGHPUT:-15}
+#      INTERVAL: ${LOCUST_TASK_INTERVAL:-0}
+#      USER_ID_FIRST: ${LOCUST_USER_ID_FIRST:-1}
+#      USER_ID_SIZE: ${LOCUST_USER_ID_SIZE:-6}
+#    command: >-
+#      --config /etc/config/${LOCUST_INCREASE_TYPE:-basic}.conf
+#      --loglevel ${LOCUST_LOG_LEVEL:-INFO}
+#      --autostart --run-time ${LOCUST_LOAD_RUNTIME:-2m}
+#      --reset-stats --print-stats
+#      --html /mnt/locust/report/subscription.html
+#      -f /mnt/locust/day1/${LOCUST_LOAD_SCENARIO:-subscription}.py
+#      --master -H http://day1:${DAY1_APP_PORT:-28081}
+#    volumes:
+#      - "${LOCUST_VOLUME:-./build-src/system-performance/locust}/configs:/etc/config:ro"
+#      - "${LOCUST_VOLUME:-./build-src/system-performance/locust}/scenarios:/mnt/locust/day1:ro"
+#      - "${LOCUST_VOLUME:-./build-src/system-performance/locust}/report:/mnt/locust/report"
+#
+#  locust-worker:
+#    depends_on:
+#      - locust-master
+#    image: locustio/locust:${LOCUST_VERSION:-2.14.2}
+#    container_name: day1-perf-locust-worker
+#    environment:
+#      TROUGHPUT: ${LOCUST_SCENARIO_TROUGHPUT:-15}
+#      INTERVAL: ${LOCUST_TASK_INTERVAL:-0}
+#      USER_ID_FIRST: ${LOCUST_USER_ID_FIRST:-1}
+#      USER_ID_LAST: ${LOCUST_USER_ID_LAST:-99999}
+#    command: >-
+#      --config /etc/config/${LOCUST_LOAD_TYPE:-basic}.conf
+#      --loglevel ${LOCUST_LOG_LEVEL:-INFO}
+#      -f /mnt/locust/day1/${LOCUST_LOAD_SCENARIO:-subscription}.py
+#      --worker --master-host locust-master
+#    volumes:
+#      - "${LOCUST_VOLUME:-./build-src/system-performance/locust}/configs:/etc/config:ro"
+#      - "${LOCUST_VOLUME:-./build-src/system-performance/locust}/scenarios:/mnt/locust/day1:ro"
+#
+#volumes:
+#  db-data:
+#    external: true

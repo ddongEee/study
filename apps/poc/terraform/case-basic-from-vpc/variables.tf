@@ -91,6 +91,10 @@ variable "cpu_or_memory_limit" {
   default = 70
 }
 
+variable "ecs_task_image_tag" {
+  type = string
+}
+
 #variable "aws_ami_id_maps" {
 #  description = ""
 #  type = map

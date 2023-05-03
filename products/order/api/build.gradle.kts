@@ -1,4 +1,5 @@
 dependencies {
+    implementation(platform("software.amazon.awssdk:bom:${Versions.awsJavaSdk}"))
     implementation("org.springframework.boot:spring-boot-starter-web:${Versions.springBoot}")
     implementation("org.springframework.boot:spring-boot-starter-security:${Versions.springBoot}")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:${Versions.springBoot}")
@@ -8,7 +9,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:${Versions.jwt}")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:${Versions.jwt}")
     implementation("org.postgresql:postgresql:${Versions.postgreSQL}")
+//    implementation("software.amazon.awssdk:aws-sdk-java:${Versions.awsJavaSdk}")
     compileOnly("software.amazon.awssdk:aws-sdk-java:${Versions.awsJavaSdk}")
+    implementation("software.amazon.awssdk:secretsmanager:${Versions.awsJavaSdk}")
+    implementation("software.amazon.awssdk:auth:${Versions.awsJavaSdk}")
     implementation("software.amazon.awssdk:aws-crt-client:${Versions.awsJavaSdk}")
-    implementation("software.amazon.awssdk:apache-client:${Versions.awsJavaSdk}")
+    compileOnly("software.amazon.awssdk:apache-client:${Versions.awsJavaSdk}") //   이슈 : https://github.com/testcontainers/testcontainers-java/issues/1442#issuecomment-694342883
 }

@@ -77,6 +77,20 @@ aws configure --profile lab-admin
 # Default output format [None]: json
 ```
 
+### AWS Session manager on local
+- 참고 : https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
+  - https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html#install-plugin-macos-signed
+```bash
+aws ssm start-session --target {{instanceId}}
+$ cd ~
+```
+
+#### Amazon ECS Exec Checker
+```bash
+bash <( curl -Ls https://raw.githubusercontent.com/aws-containers/amazon-ecs-exec-checker/main/check-ecs-exec.sh ) <YOUR_ECS_CLUSTER_NAME> <YOUR_ECS_TASK_ID>
+```
+- 참고 : https://github.com/aws-containers/amazon-ecs-exec-checker
+
 ### AWS IAM 
 - 어떻게 role, policy, attach 되는가?
 ## Reference

@@ -6,7 +6,7 @@ object Versions {
     const val springJwt                        = "1.1.1.RELEASE"
     const val jakarta                          = "3.1.0"
     const val swagger                          = "2.2.9"
-    const val awsJavaSdk                       = "2.20.52"
+    const val awsJavaSdk                       = "2.20.57"
     const val awsJavaSdkKms                    = "1.12.225"
     const val awsJavaSdkSsm                    = "1.12.199"
     const val awsJavaSdkSecretsManager         = "1.12.455"

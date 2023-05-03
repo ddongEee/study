@@ -2,8 +2,22 @@ spring:
   application:
     name: ${spring.application.name}
   jpa:
+    database: "${DB_ENGINE:postgresql}"
     hibernate:
-      ddl-auto: ${spring.jpa.hibernate.ddl-auto}
+      ddl-auto: ${spring.jpa.hibernate.ddl-auto} # create disabled: schema has been managed by flyway on docker-compose
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+#        default_schema: "${DB_DEFAULT_SCHEMA:builder}"
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        hbm2ddl:
+#          import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+        format_sql: false
+        show-sql: false
+        use_sql_comments: true
+        use_jdbc_metadata_defaults: true
   datasource:
     url: ${spring.datasource.url}
     username: ${spring.datasource.username}

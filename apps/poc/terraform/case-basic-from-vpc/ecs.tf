@@ -13,7 +13,7 @@ data "template_file" "service" {
   vars = {
     region             = var.aws_region
     aws_ecr_repository = aws_ecr_repository.repo.repository_url
-    tag                = "latest"
+    tag                = var.ecs_task_image_tag
     container_port     = var.container_port
     host_port          = var.host_port
     app_name           = var.app_name
@@ -41,7 +41,7 @@ resource "aws_ecs_service" "service" {
   task_definition  = aws_ecs_task_definition.task.id
   desired_count    = 1 # todo : 아래껄로 변경해보기
 #  desired_count    = length(var.aws_public_subnet_cidrs)
-#  force_new_deployment = true # todo : 무엇?
+  force_new_deployment = true # todo : 무엇?
   launch_type      = "FARGATE"
   platform_version = "LATEST"
 
