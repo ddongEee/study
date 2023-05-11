@@ -60,21 +60,16 @@ source ~/.tf/poc/loadInput2Env.sh && \
 terraform -chdir=${TERRAFORM_DIR} output \
 -json > ~/.tf/poc/output.json
 
-
+# bastion 으로 db 접근
 source ~/.tf/poc/loadInput2Env.sh && \
 ssh -i ~/.ssh/web_admin ec2-user@${BASTION_IP}
 
 ssh -i ~/.ssh/web_admin -L -H <local-port>:<aws-rds-endpoint>:<aws-rds-port> ec2-user@3.39.20.180
 
-mysql --user=kmhakpostgres --password=kmhakpostgres! --host=aurora-cluster-demo-v2-instance-0.cjr6vr4c518w.ap-northeast-2.rds.amazonaws.com --port=5432
-mysql --user=user1  --host=127.16.38.1 --port=25060 -p
 
 # EC2 에서 RDS 로 접근가능 확인
 # -var="aws_account_id=$(cat "${POC_PROPERTY_DIR}/input.json" | jq -r .ACCOUNT_ID)" \
-echo "curl -v telnet://"$(cat ~/.tf/poc/output.json | jq -r .cluster.value)":5432"
-curl -v telnet://aurora-cluster-demo-v2.cluster-cjr6vr4c518w.ap-northeast-2.rds.amazonaws.com:5432
-
-curl -v telnet://aurora-cluster-demo-v2-instance-0.cjr6vr4c518w.ap-northeast-2.rds.amazonaws.com:3306
+echo "curl -v telnet://"$(cat ~/.tf/poc/output.json | jq -r .cluster.value)":5432" | pbcopy
 
 # sudo yum install postgresql
 # psql: SCRAM authentication requires libpq version 10 or above 에러로 아래 추가 설치
@@ -82,16 +77,16 @@ curl -v telnet://aurora-cluster-demo-v2-instance-0.cjr6vr4c518w.ap-northeast-2.r
 # sudo amazon-linux-extras install postgresql10
 # sudo pip3 install --force-reinstall psycopg2==2.9.3
 
-psql \
-   --host=aurora-cluster-demo-v2-instance-0.cjr6vr4c518w.ap-northeast-2.rds.amazonaws.com \
-   --port=5432 \
-   --username=kmhakpostgres \
-   --password \
-   --dbname=orderdb
+echo "curl -v telnet://"$(cat ~/.tf/poc/output.json | jq -r .cluster.value)":5432" | pbcopy
+
+# psql 접속 command 생성
+source ~/.tf/poc/loadInput2Env.sh && \
+echo "psql --host=$(cat ~/.tf/poc/output.json | jq -r .cluster.value) --port=5432 --username=${AWS_DB_USERNAME} --password --dbname=${AWS_DB_NAME}" | \
+pbcopy
+
 #  < [SQL 파일명]   하면 실행됨
 # 명령어s
 # \list, \c orderdb, \dt      
-kmhakpostgres!
 ```
 
 ## 기타 
