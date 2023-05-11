@@ -1,4 +1,4 @@
-# Terraform - Case. Basic from vpc
+# Terraform - order-api
 ***
 ### Script
 ```bash
@@ -37,6 +37,61 @@ sudo dockerd &> dockerd-logfile &
 aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com
 sudo docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/day2:latest
 sudo docker run -d -p 8008:8080 --name day2app ${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/day2:latest
+```
+
+### 실행
+```bash
+# -var="aws_account_id=$(cat "${POC_PROPERTY_DIR}/input.json" | jq -r .ACCOUNT_ID)" \
+export TAG_VERSION=1.0.18 && \
+source ~/.tf/poc/loadInput2Env.sh && \
+ export EXEC_CMD=plan && \
+#export EXEC_CMD=apply && \
+#export AUTO_APPROVE=-auto-approve && \
+terraform -chdir=${TERRAFORM_DIR} ${EXEC_CMD} \
+		  -var="aws_account_id=${ACCOUNT_ID}" \
+		  -var="aws_db_name=${AWS_DB_NAME}" \
+		  -var="aws_db_username=${AWS_DB_USERNAME}" \
+		  -var="aws_db_password=${AWS_DB_PASSWORD}" \
+		  -var="ecs_task_image_tag=${TAG_VERSION}" \
+#		  ${AUTO_APPROVE}
+
+
+source ~/.tf/poc/loadInput2Env.sh && \
+terraform -chdir=${TERRAFORM_DIR} output \
+-json > ~/.tf/poc/output.json
+
+
+source ~/.tf/poc/loadInput2Env.sh && \
+ssh -i ~/.ssh/web_admin ec2-user@${BASTION_IP}
+
+ssh -i ~/.ssh/web_admin -L -H <local-port>:<aws-rds-endpoint>:<aws-rds-port> ec2-user@3.39.20.180
+
+mysql --user=kmhakpostgres --password=kmhakpostgres! --host=aurora-cluster-demo-v2-instance-0.cjr6vr4c518w.ap-northeast-2.rds.amazonaws.com --port=5432
+mysql --user=user1  --host=127.16.38.1 --port=25060 -p
+
+# EC2 에서 RDS 로 접근가능 확인
+# -var="aws_account_id=$(cat "${POC_PROPERTY_DIR}/input.json" | jq -r .ACCOUNT_ID)" \
+echo "curl -v telnet://"$(cat ~/.tf/poc/output.json | jq -r .cluster.value)":5432"
+curl -v telnet://aurora-cluster-demo-v2.cluster-cjr6vr4c518w.ap-northeast-2.rds.amazonaws.com:5432
+
+curl -v telnet://aurora-cluster-demo-v2-instance-0.cjr6vr4c518w.ap-northeast-2.rds.amazonaws.com:3306
+
+# sudo yum install postgresql
+# psql: SCRAM authentication requires libpq version 10 or above 에러로 아래 추가 설치
+# sudo yum install -y amazon-linux-extras
+# sudo amazon-linux-extras install postgresql10
+# sudo pip3 install --force-reinstall psycopg2==2.9.3
+
+psql \
+   --host=aurora-cluster-demo-v2-instance-0.cjr6vr4c518w.ap-northeast-2.rds.amazonaws.com \
+   --port=5432 \
+   --username=kmhakpostgres \
+   --password \
+   --dbname=orderdb
+#  < [SQL 파일명]   하면 실행됨
+# 명령어s
+# \list, \c orderdb, \dt      
+kmhakpostgres!
 ```
 
 ## 기타 

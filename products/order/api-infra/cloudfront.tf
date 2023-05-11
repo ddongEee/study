@@ -2,7 +2,7 @@
 # creating Cloudfront distribution: 생성되는데 시간 오래 걸림.. 4분
 resource "aws_cloudfront_distribution" "cf_dist_ecs" {
   enabled = true
-  aliases = ["cf2ecs.kmhak.com"] // todo : domain 발급받으면 사용?
+  aliases = ["cf2ecs.kmhak.com"]
   origin {
     domain_name = aws_lb.to_ecs.dns_name
     origin_id   = aws_lb.to_ecs.dns_name

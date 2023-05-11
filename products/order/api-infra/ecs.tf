@@ -18,6 +18,7 @@ data "template_file" "service" {
     host_port          = var.host_port
     app_name           = var.app_name
     env_suffix         = var.environment
+    rds_credentials = aws_secretsmanager_secret.rds_credentials.arn
   }
 }
 
@@ -25,6 +26,7 @@ resource "aws_ecs_task_definition" "task" {
   family                   = "service"
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn            = ""
   cpu                      = 256
   memory                   = 512
   requires_compatibilities = ["FARGATE", "EC2"] # todo : ec2 지워보기
@@ -46,7 +48,7 @@ resource "aws_ecs_service" "service" {
   platform_version = "LATEST"
 
   network_configuration {
-    security_groups  = [aws_security_group.ecs_tasks.id]
+    security_groups  = [aws_security_group.ecs_tasks.id, aws_security_group.db_key.id]
     subnets          = aws_subnet.public_subnets.*.id # todo : private 으로 바꿔보기
     assign_public_ip = true
   }

@@ -29,6 +29,14 @@
         "value": "dev"
       }
     ],
+    "secrets": [
+          {"name":"username","valueFrom":"${rds_credentials}"},
+          {"name":"password","valueFrom":"${rds_credentials}"},
+          {"name":"engine","valueFrom":"${rds_credentials}"},
+          {"name":"host","valueFrom":"${rds_credentials}"},
+          {"name":"port","valueFrom":"${rds_credentials}"},
+          {"name":"dbClusterIdentifier","valueFrom":"${rds_credentials}"}
+    ],
     "ulimits": [
       {
         "name": "nofile",

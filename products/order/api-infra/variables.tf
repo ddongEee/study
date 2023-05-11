@@ -95,6 +95,23 @@ variable "ecs_task_image_tag" {
   type = string
 }
 
+variable "aws_db_name" {
+  type = string
+}
+
+variable "aws_db_username" {
+  type = string
+}
+
+variable "aws_db_password" {
+  type = string
+}
+
+variable "aws_rds_cluster_port_5432" {
+  type = number
+  default = 5432
+}
+
 #variable "aws_ami_id_maps" {
 #  description = ""
 #  type = map

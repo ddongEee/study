@@ -1,4 +1,3 @@
-# TODO :
 # - Bastion Host 혹은 SSH 터널링을 위한 instance 생성
 resource "aws_key_pair" "web_admin" {
   key_name   = "web_admin"
@@ -12,7 +11,9 @@ resource "aws_instance" "web" {
   key_name               = aws_key_pair.web_admin.key_name
   subnet_id              = element(aws_subnet.public_subnets.*.id, count.index)
   vpc_security_group_ids = [
-    aws_security_group.webserver-sg.id,
+    aws_security_group.ec2.id,
+    aws_security_group.allow_8080.id,
+    aws_security_group.db_key.id, # db access 용 sg
     data.aws_security_group.default.id
   ]
   user_data              = <<-EOF
@@ -38,28 +39,3 @@ resource "aws_eip" "demo-eips"{
     Name = "[${var.aws_vpc_name}] EIP4Ec2-${count.index}"
   }
 }
-
-# TODO : ASG 반영하기
-# TODO : VPC Flow log 적용
-
-#resource "null_resource" "reboo_instance" {
-#
-#  provisioner "local-exec" {
-#    on_failure  = "fail"
-#    interpreter = ["/bin/bash", "-c"]
-#    command     = <<EOT
-#        echo -e "\x1B[31m Warning! Restarting instance having id ${aws_instance.web[0].id}.................. \x1B[0m"
-#        echo -e "\x1B[31m Warning! Restarting instance having id ${aws_instance.web[1].id}.................. \x1B[0m"
-#         aws ec2 reboot-instances --instance-ids ${aws_instance.web[0].id} --profile poc-admin
-#         aws ec2 reboot-instances --instance-ids ${aws_instance.web[1].id} --profile poc-admin
-#        # To stop instance
-##        aws ec2 stop-instances --instance-ids ${aws_instance.web[0].id} --profile poc-admin
-##        aws ec2 stop-instances --instance-ids ${aws_instance.web[1].id} --profile poc-admin
-#        echo "***************************************Rebooted****************************************************"
-#     EOT
-#  }
-#  #   this setting will trigger script every time,change it something needed
-#  triggers = {
-#    always_run = "${timestamp()}"
-#  }
-#}

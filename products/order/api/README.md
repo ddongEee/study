@@ -1,4 +1,4 @@
-# Product : Day2
+# APP : Order-api
 ## 작업
 ```bash
 #export ACCOUNT_ID=$(aws sts get-caller-identity --output json | jq ".Account" | tr -d '"')
@@ -19,17 +19,13 @@ docker logs -f $(docker ps --all --no-trunc --format='{{json .}}' | jq -c 'selec
 
 # clean & build 하여 boot.jar 새롭게 만들고 docker image 를 ecr 에다가 upload, 그리고 terraform apply & deploy
 
-export TAG_VERSION=1.0.17 && \
+export TAG_VERSION=1.0.18 && \
 export SPRING_PROFILES_ACTIVE='local-container' && \
-export ACCOUNT_ID=$(cat ~/.aws/poc.secret.json | jq -r .ACCOUNT_ID) && \
-export AWS_ACCESS_KEY_ID=$(cat ~/.aws/poc.secret.json | jq -r .AWS_ACCESS_KEY_ID) && \
-export AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/poc.secret.json | jq -r .AWS_SECRET_ACCESS_KEY) && \
-export GRADLEW_DIR=/Users/kmhak/Projects/personal/study && \
-export TERRAFORM_DIR=/Users/kmhak/Projects/personal/study/apps/poc/terraform/case-basic-from-vpc && \
+source ~/.tf/poc/loadInput2Env.sh && \
 ${GRADLEW_DIR}/gradlew -p ${GRADLEW_DIR} :products:order:api:clean && \
 ${GRADLEW_DIR}/gradlew -p ${GRADLEW_DIR} :products:order:api:build && \
 aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com && \
-docker build --tag order-api:${TAG_VERSION} ~/Projects/personal/study/products/order/api && \
+docker build --tag order-api:${TAG_VERSION} ${APP_PROJECT_DIR} && \
 #docker rm $(docker ps --all --no-trunc --format='{{json .}}' | jq -c 'select( .Image == "order-api:'${TAG_VERSION}'")' | jq -r .ID) && \
 docker run -d --network poc-network -e SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -p 8080:8080 order-api:${TAG_VERSION} && \
 docker logs -f $(docker ps --all --no-trunc --format='{{json .}}' | jq -c 'select( .Image == "order-api:'${TAG_VERSION}'")' | jq -r .ID)

@@ -92,7 +92,19 @@ bash <( curl -Ls https://raw.githubusercontent.com/aws-containers/amazon-ecs-exe
 - 참고 : https://github.com/aws-containers/amazon-ecs-exec-checker
 
 ### AWS IAM 
+- 참고 : https://jonnung.dev/posts/2021-01-28-aws-iam-role/#gsc.tab=0
 - 어떻게 role, policy, attach 되는가?
+- sts:AssumeRole
+  - sts : security token service. (보안토큰생성). iam 사용자나 외부 자격증명을 사용하여 액세스 권한 부여 가능
+  - AssumeRole, AWS IAM 지원기능, IAM 혹은 외부자격증명으로 다른 계정 혹은 리소스 접근 가능
+  - 순서 : 1. sts 로 일시 자격증명 생성, 2. 해당 자격증명으로 assumeRole 호출, 3. 해당 리소스에 대한 액세스 권한 부여받음
+  - aws iam role 에 trust relationship 에 특정 서비스 혹은 accountId 등을 지정하여, 해당 entity 만 role 을 assume 할수 있도록 한다.  
+
+## 아키택쳐
+### SSH Tunneling
+ -
+
+
 ## Reference
 - [AWS Documentation](https://docs.aws.amazon.com/)
 - ["Github" aws-lambda-developer-guide ](https://github.com/awsdocs/aws-lambda-developer-guide)

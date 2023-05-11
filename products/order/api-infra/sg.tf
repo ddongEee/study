@@ -3,8 +3,29 @@ data "aws_security_group" "default" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_security_group" "webserver-sg" {
-  name = "allow 22, 80"
+resource "aws_security_group" "allow_8080" {
+  name = "allow 8080"
+  description = "[For WAS] Allow SSH port from all"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Allow all outbound traffic.
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "ec2" {
+  name = "allow 22, 80 for ec2"
   description = "Allow SSH port from all"
   vpc_id      = aws_vpc.main.id
 
@@ -22,13 +43,7 @@ resource "aws_security_group" "webserver-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
+  # Allow all outbound traffic.
   egress {
     from_port   = 0
     to_port     = 0
@@ -143,5 +158,33 @@ resource "aws_security_group" "ecs_tasks" {
     protocol      = "-1"
     to_port       = 0
     cidr_blocks   = ["0.0.0.0/0"]
+  }
+}
+
+# [RDS] db를 사용하는 ec2 혹은 ecr 등등에서 사용
+resource "aws_security_group" "db_key" {
+  name   = "db_key"
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "db-key"
+  }
+}
+
+# [RDS] Database Security Group
+resource "aws_security_group" "db_lock" {
+  name        = "db_lock"
+  description = "DB security group"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port = var.aws_rds_cluster_port_5432
+    to_port   = var.aws_rds_cluster_port_5432
+    protocol  = "tcp"
+
+    security_groups = [aws_security_group.db_key.id]
+  }
+
+  tags = {
+    Name = "db-lock"
   }
 }

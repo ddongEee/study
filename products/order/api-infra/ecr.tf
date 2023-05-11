@@ -3,7 +3,7 @@ data "aws_ecr_repository" "api" {
 }
 
 resource "aws_ecr_repository" "repo" {
-  name = "kmhak/service_${var.environment}" // todo : 환경별로 이미지 따로가져가면 SSOT 위반
+  name = "kmhak/service_${var.environment}" # 환경별로 이미지 따로가져가면 SSOT 위반
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
