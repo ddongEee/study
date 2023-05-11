@@ -1,6 +1,12 @@
 # AWS
 
 ## 서비스 
+### Subnet
+- public subnet : 인터넷 연결이 가능함으로, 공인 ip 를 갖을수 있다.
+- private subnet : 다른 vpc 영역에서 접근이 불가능하다. 동일 vpc 대역이라면 접근가능
+  - nat gw 를 타고 EIP로 변환후 igw통해 인터넷으로 나감
+- 정리
+  - ELB 만 public 에 놓고, 실제 was 와 db는 private subnet 에 위치시키는것이 좋은선택
 ### Amazon CloudWatch
 - 모니터링 및 관찰 시스템, AWS 서비스 혹은 다른 애플리케이션 모니터링
 - Public 서비스 (인터넷 혹은 Interface Endpoint 사용)
@@ -45,8 +51,22 @@
     - 로그스트림 name 혹은 여러 dimension 조합으로 검색
   - 모든경보 -> 지표선택 -> 합계,1분,보다크거나같음 -> SNS 설정
     - email confirm 필요
+### AWS route53
+
+### Application Load Balancer
+- 기능
+  - 트래픽 분산, health check, https 지원 
+- 구성
+  - listener : 구성 protocol 과 port 로  
+#### 다른곳에서 구입한 도메인을 사용하기 위해선
+- 사용하려고 하는 aws 계정의 route53에 "Hosting" 영역 생성하고
+  - 생성된 ns을, 이전에 구입한 곳의 도메인에 연결된 ns 에 overwrite 해준다. 
+```bash
+생성후 확인
+nslookup -type=ns woocra.com
+```
         
-## AWS CLI
+### AWS CLI
 ```bash
 # iam 에서 role 생성 및 access key 생성후 
 # aws configure --profile {{accountName-role}}
@@ -56,6 +76,35 @@ aws configure --profile lab-admin
 # Default region name [None]: ap-northeast-2
 # Default output format [None]: json
 ```
+
+### AWS Session manager on local
+- 참고 : https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
+  - https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html#install-plugin-macos-signed
+```bash
+aws ssm start-session --target {{instanceId}}
+$ cd ~
+```
+
+#### Amazon ECS Exec Checker
+```bash
+bash <( curl -Ls https://raw.githubusercontent.com/aws-containers/amazon-ecs-exec-checker/main/check-ecs-exec.sh ) <YOUR_ECS_CLUSTER_NAME> <YOUR_ECS_TASK_ID>
+```
+- 참고 : https://github.com/aws-containers/amazon-ecs-exec-checker
+
+### AWS IAM 
+- 참고 : https://jonnung.dev/posts/2021-01-28-aws-iam-role/#gsc.tab=0
+- 어떻게 role, policy, attach 되는가?
+- sts:AssumeRole
+  - sts : security token service. (보안토큰생성). iam 사용자나 외부 자격증명을 사용하여 액세스 권한 부여 가능
+  - AssumeRole, AWS IAM 지원기능, IAM 혹은 외부자격증명으로 다른 계정 혹은 리소스 접근 가능
+  - 순서 : 1. sts 로 일시 자격증명 생성, 2. 해당 자격증명으로 assumeRole 호출, 3. 해당 리소스에 대한 액세스 권한 부여받음
+  - aws iam role 에 trust relationship 에 특정 서비스 혹은 accountId 등을 지정하여, 해당 entity 만 role 을 assume 할수 있도록 한다.  
+
+## 아키택쳐
+### SSH Tunneling
+ -
+
+
 ## Reference
 - [AWS Documentation](https://docs.aws.amazon.com/)
 - ["Github" aws-lambda-developer-guide ](https://github.com/awsdocs/aws-lambda-developer-guide)

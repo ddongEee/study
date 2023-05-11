@@ -30,13 +30,3 @@ resource "aws_instance" "web" {
     Name = "web"
   }
 }
-
-resource "aws_db_instance" "web_db" {
-  allocated_storage = 8
-  engine = "mysql"
-  engine_version = "5.7.33"
-  instance_class = "db.t2.micro"
-  username = "admin"
-  password = "xxxxxxxx"
-  skip_final_snapshot = true # terraform 에서 삭제하기 쉽게 하기 위해..
-}
