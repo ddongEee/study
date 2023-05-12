@@ -89,11 +89,6 @@ pbcopy
 # 명령어s
 # \list, \c orderdb, \dt
 
-# deploy : run task 관련
-aws ecs run-task  --cluster cluster --task-definition service:18 --launch-type="FARGATE" --network-configuration '{ "awsvpcConfiguration": { "assignPublicIp":"ENABLED", "securityGroups": ["sg-07e80a6f5c321074c","sg-09de35a799829a32f","sg-08d55ddd64dfd2a45","sg-08aa334a7d4cfc5b0"], "subnets": ["subnet-0a87454ca9341b2d6"]}}'
-
-# 강제 업데이트
-aws ecs update-service --cluster cluster --service service --force-new-deployment
 ```
 
 ## 기타 

@@ -22,9 +22,7 @@ public class OrderApiApplication {
         }
         @GetMapping("/hello")
         public String hello() {
-            return "Hello Crayon :) V2";
+            return "Hello Crayon :) V6";
         }
     }
-
-
 }

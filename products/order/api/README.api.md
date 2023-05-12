@@ -31,14 +31,38 @@ docker run -d --network poc-network -e SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_
 docker logs -f $(docker ps --all --no-trunc --format='{{json .}}' | jq -c 'select( .Image == "order-api:'${TAG_VERSION}'")' | jq -r .ID)
 
 
+# Deploy ONLY : 4분30 초 소요 예상
+# todo : task-definition 에 sg + subnet 하드코딩값 변경 > dynamic
+export TAG_VERSION=1.0.24 && \
+export SPRING_PROFILES_ACTIVE='local-container' && \
+source ~/.tf/poc/loadInput2Env.sh && \
+${GRADLEW_DIR}/gradlew -p ${GRADLEW_DIR} :products:order:api:clean && \
+${GRADLEW_DIR}/gradlew -p ${GRADLEW_DIR} :products:order:api:build && \
+aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com && \
+docker build --tag order-api:${TAG_VERSION} ${APP_PROJECT_DIR} && \
 docker tag order-api:${TAG_VERSION} ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/kmhak/service_local:${TAG_VERSION} && \
 docker push ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/kmhak/service_local:${TAG_VERSION} && \
-terraform -chdir=${TERRAFORM_DIR} apply -auto-approve -var="aws_account_id=${ACCOUNT_ID}" -var="ecs_task_image_tag=${TAG_VERSION}"
+export EXEC_CMD=apply && \
+terraform -chdir=${TERRAFORM_DIR} ${EXEC_CMD} \
+      -var="aws_account_id=${ACCOUNT_ID}" \
+      -var="aws_db_name=${AWS_DB_NAME}" \
+      -var="aws_db_username=${AWS_DB_USERNAME}" \
+      -var="aws_db_password=${AWS_DB_PASSWORD}" \
+      -var="ecs_task_image_tag=${TAG_VERSION}" \
+      -auto-approve && \
+export LATEST_TD_REVISIONI=$(aws ecs list-task-definitions | jq -r ".taskDefinitionArns[0]" | cut -d ":" -f 7) && \
+echo $LATEST_TD_REVISIONI && \
+aws ecs run-task  --cluster cluster --task-definition service:${LATEST_TD_REVISIONI} --launch-type="FARGATE" --network-configuration '{ "awsvpcConfiguration": { "assignPublicIp":"ENABLED", "securityGroups": ["sg-07e80a6f5c321074c","sg-09de35a799829a32f","sg-08d55ddd64dfd2a45","sg-08aa334a7d4cfc5b0"], "subnets": ["subnet-0a87454ca9341b2d6"]}}' | jq . && \
+aws ecs update-service --cluster cluster --service service --task-definition service:${LATEST_TD_REVISIONI} | jq .
 
+
+# run container
 # local docker test & print log (delete already stopped container before start)
- 
-
-
+export TAG_VERSION=1.0.20 && \
+export SPRING_PROFILES_ACTIVE='local-container' && \
+source ~/.tf/poc/loadInput2Env.sh && \
+docker run -d --network poc-network -e SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -p 8080:8080 order-api:${TAG_VERSION} && \
+docker logs -f $(docker ps --all --no-trunc --format='{{json .}}' | jq -c 'select( .Image == "order-api:'${TAG_VERSION}'")' | jq -r .ID)
 ```
 
 ## References
