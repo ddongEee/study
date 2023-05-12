@@ -41,24 +41,25 @@ sudo docker run -d -p 8008:8080 --name day2app ${AWS_ACCOUNT_ID}.dkr.ecr.ap-nort
 
 ### 실행
 ```bash
-# -var="aws_account_id=$(cat "${POC_PROPERTY_DIR}/input.json" | jq -r .ACCOUNT_ID)" \
 export TAG_VERSION=1.0.18 && \
 source ~/.tf/poc/loadInput2Env.sh && \
- export EXEC_CMD=plan && \
-#export EXEC_CMD=apply && \
-#export AUTO_APPROVE=-auto-approve && \
+# export EXEC_CMD=plan && \
+export EXEC_CMD=apply && \
+export AUTO_APPROVE=-auto-approve && \
 terraform -chdir=${TERRAFORM_DIR} ${EXEC_CMD} \
 		  -var="aws_account_id=${ACCOUNT_ID}" \
 		  -var="aws_db_name=${AWS_DB_NAME}" \
 		  -var="aws_db_username=${AWS_DB_USERNAME}" \
 		  -var="aws_db_password=${AWS_DB_PASSWORD}" \
 		  -var="ecs_task_image_tag=${TAG_VERSION}" \
-#		  ${AUTO_APPROVE}
+		  ${AUTO_APPROVE}
 
 
+# output 을 json 으로 export
 source ~/.tf/poc/loadInput2Env.sh && \
 terraform -chdir=${TERRAFORM_DIR} output \
 -json > ~/.tf/poc/output.json
+# subl ~/.tf/poc/output.json
 
 # bastion 으로 db 접근
 source ~/.tf/poc/loadInput2Env.sh && \
@@ -86,8 +87,34 @@ pbcopy
 
 #  < [SQL 파일명]   하면 실행됨
 # 명령어s
-# \list, \c orderdb, \dt      
+# \list, \c orderdb, \dt
+
+# deploy : run task 관련
+aws ecs run-task  --cluster cluster --task-definition service:18 --launch-type="FARGATE" --network-configuration '{ "awsvpcConfiguration": { "assignPublicIp":"ENABLED", "securityGroups": ["sg-07e80a6f5c321074c","sg-09de35a799829a32f","sg-08d55ddd64dfd2a45","sg-08aa334a7d4cfc5b0"], "subnets": ["subnet-0a87454ca9341b2d6"]}}'
+
+# 강제 업데이트
+aws ecs update-service --cluster cluster --service service --force-new-deployment
 ```
 
 ## 기타 
-- default tag 에 project 이름 넣기? 
+- default tag 에 project 이름 넣기?
+
+## History
+- 2023-05-12
+  - ecs task 에 taskRole 추가
+    - devOrderApi Secret을 위한 SecretManager 관련 policy 추가 및 일단 AmazonECSFullAccess 추가
+    - rds credential 쪽에도 taskRole 관련 arn 을 
+  - ecs 에 app 배포 및 alb 연결 완료
+    - targetGroup 에 healthCheck 이슈 해소
+  - ecs task appName 및 ecs 전반적으로 cpu, memory 설정 변경
+
+## Troubleshooting
+- ALB 의 targetGroup healthCheck 실패
+  - healthCheck port 를 8080으로 overwrite 하지 않음. -> 8080 으로 지정!
+  - ecs fargate 의 스펙에 맞지않게, healthCheck의 interval 이 30sec 이었음 -> 120sec 으로 변경
+  - securityGroup 에서 8080 allow
+- ecs task 의 appName 변경시도시, The container does not exist in the task definition 이슈발생
+  - 기본적으로 ecs task definition의 container definition 의 name 과 ecs_service 의 load_balancer 의 container_name 과 일치해야함.
+  - 위는 rootCause 아니었고, terraform 설정에서 ecs_service resource 의 lifecycle 속성에 "ignore_changes = [task_definition]" 를 지정해놓음.
+  - 결과적으로 task_definition 의 appName이 변경되더라도 ecs_service 가 업데이트 안되서 이슈 발생. 
+  - 일단 해당부분 주석하고 재배포 성공

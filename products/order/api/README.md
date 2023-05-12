@@ -38,8 +38,7 @@ terraform -chdir=${TERRAFORM_DIR} apply -auto-approve -var="aws_account_id=${ACC
 # local docker test & print log (delete already stopped container before start)
  
 
-# 강제 업데이트
-aws ecs update-service --cluster cluster --service service --force-new-deployment
+
 ```
 
 ## References

@@ -105,9 +105,10 @@ resource "aws_lb_target_group" "ecs" {
   vpc_id      = aws_vpc.main.id
 
   health_check {
-    interval = 30
+    interval = 120 # todo : 적당하게 줄이거나 늘릴필요 있음
     path = "/hello"
+    port = 8080 # 따로 지정 필요햇음..
     healthy_threshold = 3
-    unhealthy_threshold = 3
+    unhealthy_threshold = 6
   }
 }

@@ -25,3 +25,7 @@ output "alb_to_ecs" {
 output "cloudfront_domain_name" {
   value = aws_cloudfront_distribution.cf_dist.domain_name
 }
+
+output "aws_ecs_cluster" {
+  value = aws_ecs_cluster.cluster.name
+}

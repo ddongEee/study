@@ -18,7 +18,7 @@
         "protocol": "tcp"
       }
     ],
-    "cpu": 2,
+    "cpu": 10,
     "environment": [
       {
         "name": "PORT",

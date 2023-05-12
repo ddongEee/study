@@ -26,10 +26,10 @@ resource "aws_ecs_task_definition" "task" {
   family                   = "service"
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn            = ""
-  cpu                      = 256
-  memory                   = 512
-  requires_compatibilities = ["FARGATE", "EC2"] # todo : ec2 지워보기
+  task_role_arn            = aws_iam_role.ecs_task_role.arn
+  cpu                      = 1024
+  memory                   = 2048
+  requires_compatibilities = ["FARGATE"]
   container_definitions    = data.template_file.service.rendered
 
   tags = {
@@ -67,7 +67,9 @@ resource "aws_ecs_service" "service" {
   ]
 
   lifecycle {
-    ignore_changes = [task_definition] # todo : 무엇?
+    # app name 을 변경햇고, task_definition 이 변경되엇는데, ecs_service 는 변경이 안되면서,
+    # The container does not exist in the task definition 이슈 발생
+    ignore_changes = [task_definition]
   }
 
   tags = {

@@ -36,7 +36,6 @@ resource "aws_rds_cluster_instance" "v2i" {
   engine             = aws_rds_cluster.c_v2.engine
   engine_version     = aws_rds_cluster.c_v2.engine_version
   publicly_accessible = false
-
 }
 
 resource "aws_db_subnet_group" "db_subnet_group" {
@@ -44,47 +43,9 @@ resource "aws_db_subnet_group" "db_subnet_group" {
   subnet_ids = aws_subnet.private_subnets.*.id #  DB용 private subnet 만들필요?
 }
 
-
 resource "aws_secretsmanager_secret" "rds_credentials" {
   name   = "credentials"
   policy = data.aws_iam_policy_document.my_password_policy.json
-}
-
-data "aws_iam_policy_document" "my_password_policy" {
-  statement {
-    effect = "Allow"
-    principals {
-      identifiers = [aws_iam_role.ecs_task_execution_role.arn]
-      type        = "AWS"
-    }
-    actions = [
-      "secretsmanager:GetSecret",
-      "secretsmanager:GetSecretValue"
-    ]
-    resources = ["*"]
-  }
-}
-
-resource "aws_iam_policy" "secrets_access" {
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "secretsmanager:GetResourcePolicy",
-        "secretsmanager:GetSecretValue",
-        "secretsmanager:DescribeSecret",
-        "secretsmanager:ListSecretVersionIds"
-      ],
-      "Resource": [
-        "${aws_secretsmanager_secret.rds_credentials.arn}"
-      ]
-    }
-  ]
-}
-POLICY
 }
 
 resource "aws_secretsmanager_secret_version" "rds_credentials" {
