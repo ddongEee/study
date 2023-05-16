@@ -41,7 +41,7 @@ sudo docker run -d -p 8008:8080 --name day2app ${AWS_ACCOUNT_ID}.dkr.ecr.ap-nort
 
 ### 실행
 ```bash
-export TAG_VERSION=1.0.18 && \
+export TAG_VERSION=1.0.26 && \
 source ~/.tf/poc/loadInput2Env.sh && \
 # export EXEC_CMD=plan && \
 export EXEC_CMD=apply && \
@@ -52,7 +52,9 @@ terraform -chdir=${TERRAFORM_DIR} ${EXEC_CMD} \
 		  -var="aws_db_username=${AWS_DB_USERNAME}" \
 		  -var="aws_db_password=${AWS_DB_PASSWORD}" \
 		  -var="ecs_task_image_tag=${TAG_VERSION}" \
-		  ${AUTO_APPROVE}
+		  ${AUTO_APPROVE} && \
+terraform -chdir=${TERRAFORM_DIR} output \
+-json > ~/.tf/poc/output.json
 
 
 # output 을 json 으로 export
@@ -96,6 +98,10 @@ pbcopy
 
 ## History
 - 2023-05-12
+  - cloud front 에 s3와 alb endpoint 추가
+    - 
+    - cache policy 를 통해 Auth header 를 추가해 줘야함..
+- 2023-05-12
   - ecs task 에 taskRole 추가
     - devOrderApi Secret을 위한 SecretManager 관련 policy 추가 및 일단 AmazonECSFullAccess 추가
     - rds credential 쪽에도 taskRole 관련 arn 을 
@@ -113,3 +119,6 @@ pbcopy
   - 위는 rootCause 아니었고, terraform 설정에서 ecs_service resource 의 lifecycle 속성에 "ignore_changes = [task_definition]" 를 지정해놓음.
   - 결과적으로 task_definition 의 appName이 변경되더라도 ecs_service 가 업데이트 안되서 이슈 발생. 
   - 일단 해당부분 주석하고 재배포 성공
+- Terraform 에서 cloudfront 의 cahce_behavior 에서 forward_value 와 cache_policy 동시사용 이슈
+  - cache_policy_id 를 사용할땐, forwarded_values {} value를 제거한다.
+  - "You have to disable the forwarded section if applying a custom cache_policy and origin_request_policy."

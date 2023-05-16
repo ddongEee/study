@@ -22,7 +22,12 @@ public class OrderApiApplication {
         }
         @GetMapping("/hello")
         public String hello() {
-            return "Hello Crayon :) V6";
+            return "Hello Crayon :) V8";
+        }
+
+        @GetMapping("/api/hello")
+        public String helloApi() {
+            return "Hello Crayon API ;) V3";
         }
     }
 }

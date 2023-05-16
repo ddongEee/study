@@ -45,3 +45,11 @@ resource "aws_route53_record" "cf_for_ecs" {
   ttl     = 60
   records = [aws_cloudfront_distribution.cf_dist_ecs.domain_name]
 }
+
+resource "aws_route53_record" "poc" {
+  name    = "poc.kmhak.com"
+  zone_id = data.aws_route53_zone.test_domain_zone.zone_id
+  type    = "CNAME"
+  ttl     = 60
+  records = [aws_cloudfront_distribution.cf_dist_ecs.domain_name]
+}

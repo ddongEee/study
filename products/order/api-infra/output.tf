@@ -29,3 +29,11 @@ output "cloudfront_domain_name" {
 output "aws_ecs_cluster" {
   value = aws_ecs_cluster.cluster.name
 }
+
+output "aws_s3_react_bucket" {
+  value = aws_s3_bucket.react.id
+}
+
+output "aws_cloudfront_distribution_id" {
+  value = aws_cloudfront_distribution.cf_dist_ecs.id
+}

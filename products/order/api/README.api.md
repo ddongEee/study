@@ -33,7 +33,7 @@ docker logs -f $(docker ps --all --no-trunc --format='{{json .}}' | jq -c 'selec
 
 # Deploy ONLY : 4분30 초 소요 예상
 # todo : task-definition 에 sg + subnet 하드코딩값 변경 > dynamic
-export TAG_VERSION=1.0.24 && \
+export TAG_VERSION=1.0.26 && \
 export SPRING_PROFILES_ACTIVE='local-container' && \
 source ~/.tf/poc/loadInput2Env.sh && \
 ${GRADLEW_DIR}/gradlew -p ${GRADLEW_DIR} :products:order:api:clean && \

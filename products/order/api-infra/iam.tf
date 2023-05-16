@@ -127,6 +127,34 @@ resource "aws_iam_policy" "secrets_access" { # todo : rename : access_rds_secret
 POLICY
 }
 
+data "aws_iam_policy_document" "allow_access_to_react_s3" {
+  statement {
+    sid = "AllowCloudFrontServicePrincipalRead"
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+    actions = [
+      "s3:GetObject",
+    ]
+    resources = [
+      "${aws_s3_bucket.react.arn}/*",
+    ]
+
+    condition {
+      test     = "StringLike"
+      variable = "AWS:SourceArn"
+
+      values = [
+        aws_cloudfront_distribution.cf_dist_ecs.arn
+      ]
+    }
+  }
+
+  depends_on = [
+    aws_s3_bucket.react
+  ]
+}
 
 # ------------ Policy About S3 bucket
 data "aws_iam_policy_document" "allow-lb" { # TODO : check

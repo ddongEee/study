@@ -46,9 +46,15 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle" {
   }
 }
 
+#### About react!
 resource "aws_s3_bucket" "react" {
   bucket = "day3-app"
   force_destroy = true
+}
+
+resource "aws_s3_bucket_policy" "allow_cloudfront" {
+  bucket = aws_s3_bucket.react.id
+  policy = data.aws_iam_policy_document.allow_access_to_react_s3.json
 }
 
 resource "aws_s3_bucket_ownership_controls" "react" {
