@@ -98,9 +98,15 @@ pbcopy
 
 ## History
 - 2023-05-12
-  - cloud front 에 s3와 alb endpoint 추가
-    - 
-    - cache policy 를 통해 Auth header 를 추가해 줘야함..
+- cloudfront_distribution 에 default_cache_behavior 와 ordered_cache_behavior 추가
+   - api endpoint 와 s3 endpoint 연결
+   - api 의 경우 path_pattern 을 통해 여러 pattern 추가.
+   - api 의 경우 auth policy 적용
+   - s3 의 경우 OAC(origin access control) 적용 : allow_access_to_react_s3 관련 iam policy 생 
+- cloudfront_cache_policy 에 Authorization 추가해서 연동
+- poc.kmhak.com 도메인 생성
+- [FE] prod 용 base url 변경
+
 - 2023-05-12
   - ecs task 에 taskRole 추가
     - devOrderApi Secret을 위한 SecretManager 관련 policy 추가 및 일단 AmazonECSFullAccess 추가
