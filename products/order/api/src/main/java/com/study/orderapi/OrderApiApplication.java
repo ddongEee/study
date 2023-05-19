@@ -19,16 +19,7 @@ public class OrderApiApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     public void run() {
-        testMDC();
-    }
-
-    private void testMDC() {
-        MDC.put("userId", "crayon");
-        MDC.put("event", "orderProduct");
-        MDC.put("transactionId", "a123");
-        log.error("mdc test");
-        MDC.clear();
-        log.warn("after mdc.clear");
+        // none
     }
 
     @RestController

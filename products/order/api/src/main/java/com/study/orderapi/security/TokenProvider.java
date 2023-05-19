@@ -67,7 +67,6 @@ public class TokenProvider {
                     .setSigningKey(signingKey)
                     .build()
                     .parseClaimsJws(token);
-
             return Optional.of(jws);
         } catch (ExpiredJwtException exception) {
             log.error("Request to parse expired JWT : {} failed : {}", token, exception.getMessage());
