@@ -1,11 +1,28 @@
-data "aws_route53_zone" "test_domain_zone" {
+data "aws_route53_zone" "kmhak_com" {
   name = "kmhak.com"
+}
+
+## validate cert:
+resource "aws_route53_record" "cert_validation" {
+  for_each = {
+    for d in aws_acm_certificate.cert.domain_validation_options : d.domain_name => {
+      name   = d.resource_record_name
+      record = d.resource_record_value
+      type   = d.resource_record_type
+    }
+  }
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = data.aws_route53_zone.kmhak_com.zone_id
 }
 
 ## creating A record for domain:
 resource "aws_route53_record" "website_url" {
   name    = var.aws_domain_name
-  zone_id = data.aws_route53_zone.test_domain_zone.zone_id
+  zone_id = data.aws_route53_zone.kmhak_com.zone_id
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.cf_dist.domain_name
@@ -16,7 +33,7 @@ resource "aws_route53_record" "website_url" {
 
 resource "aws_route53_record" "test_alb" {
   name    = "testalb.kmhak.com"
-  zone_id = data.aws_route53_zone.test_domain_zone.zone_id
+  zone_id = data.aws_route53_zone.kmhak_com.zone_id
   type    = "CNAME"
   ttl     = 60
   records = [aws_alb.frontend.dns_name]
@@ -24,7 +41,7 @@ resource "aws_route53_record" "test_alb" {
 
 resource "aws_route53_record" "test_cf" {
   name    = "testcf.kmhak.com"
-  zone_id = data.aws_route53_zone.test_domain_zone.zone_id
+  zone_id = data.aws_route53_zone.kmhak_com.zone_id
   type    = "CNAME"
   ttl     = 60
   records = [aws_cloudfront_distribution.cf_dist.domain_name]
@@ -32,7 +49,7 @@ resource "aws_route53_record" "test_cf" {
 
 resource "aws_route53_record" "test_ecs_lb" {
   name    = "alb2ecs.kmhak.com"
-  zone_id = data.aws_route53_zone.test_domain_zone.zone_id
+  zone_id = data.aws_route53_zone.kmhak_com.zone_id
   type    = "CNAME"
   ttl     = 60
   records = [aws_lb.to_ecs.dns_name]
@@ -40,7 +57,7 @@ resource "aws_route53_record" "test_ecs_lb" {
 
 resource "aws_route53_record" "cf_for_ecs" {
   name    = "cf2ecs.kmhak.com"
-  zone_id = data.aws_route53_zone.test_domain_zone.zone_id
+  zone_id = data.aws_route53_zone.kmhak_com.zone_id
   type    = "CNAME"
   ttl     = 60
   records = [aws_cloudfront_distribution.cf_dist_ecs.domain_name]
@@ -48,7 +65,7 @@ resource "aws_route53_record" "cf_for_ecs" {
 
 resource "aws_route53_record" "poc" {
   name    = "poc.kmhak.com"
-  zone_id = data.aws_route53_zone.test_domain_zone.zone_id
+  zone_id = data.aws_route53_zone.kmhak_com.zone_id
   type    = "CNAME"
   ttl     = 60
   records = [aws_cloudfront_distribution.cf_dist_ecs.domain_name]

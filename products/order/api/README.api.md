@@ -33,7 +33,7 @@ docker logs -f $(docker ps --all --no-trunc --format='{{json .}}' | jq -c 'selec
 
 # Deploy ONLY : 4분30 초 소요 예상
 # todo : task-definition 에 sg + subnet 하드코딩값 변경 > dynamic
-export TAG_VERSION=1.0.26 && \
+export TAG_VERSION=1.0.28 && \
 export SPRING_PROFILES_ACTIVE='local-container' && \
 source ~/.tf/poc/loadInput2Env.sh && \
 ${GRADLEW_DIR}/gradlew -p ${GRADLEW_DIR} :products:order:api:clean && \
@@ -76,3 +76,5 @@ docker logs -f $(docker ps --all --no-trunc --format='{{json .}}' | jq -c 'selec
   - docker-compose 에서 defaultNetwork를 "poc-network" 지정
   - spring app docker run 시에 --network poc-network 설정
   - db url 에서 "jdbc:postgresql://postgres:5432/orderdb"" 와 같이 설정
+- 403 에러("Invalid CORS request") 발생
+  - Spring 에서 CORS 관련 app.cors.allowed-origins 설정을 하고 있었음.. 관련해서 맞춰줘야함

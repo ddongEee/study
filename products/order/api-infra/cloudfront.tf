@@ -13,9 +13,10 @@ resource "aws_cloudfront_origin_access_control" "oac" {
 
 # creating Cloudfront distribution: 생성되는데 시간 오래 걸림.. 4분
 # change resource name.... ecs s3
+## todo > aliases 를 참조값으로 빼보기
 resource "aws_cloudfront_distribution" "cf_dist_ecs" {
   enabled = true
-  aliases = ["cf2ecs.kmhak.com"]
+  aliases = ["cf2ecs.kmhak.com", "poc.kmhak.com"]
   origin {
     domain_name = aws_lb.to_ecs.dns_name
     # A unique identifier for this origin configuration.

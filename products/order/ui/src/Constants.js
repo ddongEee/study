@@ -1,6 +1,6 @@
 const prod = {
   url: {
-    API_BASE_URL: 'https://cf2ecs.kmhak.com/',
+    API_BASE_URL: 'https://poc.kmhak.com/',
   }
 }
 
