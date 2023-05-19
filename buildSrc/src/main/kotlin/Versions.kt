@@ -1,4 +1,5 @@
 object Versions {
+    const val logback                          = "0.1.5"
     const val springCloudStarter               = "4.0.2"
     const val springCloudAwsSecretManager      = "2.2.6.RELEASE"
     const val postgreSQL                       = "42.6.0"

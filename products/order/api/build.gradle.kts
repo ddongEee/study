@@ -15,4 +15,8 @@ dependencies {
     implementation("software.amazon.awssdk:auth:${Versions.awsJavaSdk}")
     implementation("software.amazon.awssdk:aws-crt-client:${Versions.awsJavaSdk}")
     compileOnly("software.amazon.awssdk:apache-client:${Versions.awsJavaSdk}") //   이슈 : https://github.com/testcontainers/testcontainers-java/issues/1442#issuecomment-694342883
+
+    // for custom logging
+    implementation("ch.qos.logback.contrib:logback-json-classic:${Versions.logback}")
+    implementation("ch.qos.logback.contrib:logback-jackson:${Versions.logback}")
 }

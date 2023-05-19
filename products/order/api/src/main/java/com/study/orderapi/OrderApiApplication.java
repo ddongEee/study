@@ -1,15 +1,34 @@
 package com.study.orderapi;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @SpringBootApplication
 public class OrderApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrderApiApplication.class, args);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void run() {
+        testMDC();
+    }
+
+    private void testMDC() {
+        MDC.put("userId", "crayon");
+        MDC.put("event", "orderProduct");
+        MDC.put("transactionId", "a123");
+        log.error("mdc test");
+        MDC.clear();
+        log.warn("after mdc.clear");
     }
 
     @RestController
@@ -17,9 +36,10 @@ public class OrderApiApplication {
         public HelloController(Environment environment) {
             String[] activeProfiles = environment.getActiveProfiles();
             for (String ac : activeProfiles) {
-                System.out.println("### + " + ac);
+                log.info("### + " + ac);
             }
         }
+
         @GetMapping("/hello")
         public String hello() {
             return "Hello Crayon :) V8";
