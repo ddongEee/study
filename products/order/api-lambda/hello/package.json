@@ -1,0 +1,12 @@
+{
+  "name": "lambda",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "author": "",
+  "dependencies": {
+    "@aws-lambda-powertools/logger": "^1.8.0",
+    "@middy/core": "^4.4.3",
+    "nanoid": "^4.0.0"
+  }
+}
